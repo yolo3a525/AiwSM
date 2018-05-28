@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Menu extends BaseEntity implements Serializable{
-	private Integer id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private Integer id;
 	private Integer pid;
 	private String url;
 	private Integer depth;

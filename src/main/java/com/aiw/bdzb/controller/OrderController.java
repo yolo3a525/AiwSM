@@ -155,7 +155,9 @@ public class OrderController extends BaseController<OrderMapper, Order>{
    }
 	
     //后台直接创建订单初始化页面
-	@RequestMapping(value = "/bcreate")
+	
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/bcreate")
 	public ModelAndView bcreate() {
 	    
         List<Integer> slist = (List<Integer>)request.getSession().getAttribute("cart");
@@ -210,6 +212,7 @@ public class OrderController extends BaseController<OrderMapper, Order>{
 	
 	
 	//后台直接创建订单.
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/create")
 	@ResponseBody
     public BaseJsonBean create(@ModelAttribute Order t){
@@ -459,7 +462,8 @@ public class OrderController extends BaseController<OrderMapper, Order>{
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/chart1")
+	@SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/chart1")
 	@ResponseBody
     public Chart chart1(@RequestParam("yearNumber") Integer yearNumber){
     	

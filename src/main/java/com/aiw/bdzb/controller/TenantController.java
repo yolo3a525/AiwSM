@@ -159,6 +159,7 @@ public class TenantController extends BaseController<TenantMapper, Tenant>{
 		return m;
 	}
 	
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/chart1")
 	@ResponseBody
     public Chart chart1(@ModelAttribute Tenant t){

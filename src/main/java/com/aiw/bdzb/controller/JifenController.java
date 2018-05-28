@@ -51,6 +51,7 @@ public class JifenController extends BaseController<JifenMapper, Jifen>{
 	     return modelAndView;  
     }
     
+    @SuppressWarnings("unused")
     @RequestMapping(value = "/save")
 	@ResponseBody
     public BaseJsonBean save3(@ModelAttribute Jifen t){

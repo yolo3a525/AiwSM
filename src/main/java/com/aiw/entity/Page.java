@@ -3,7 +3,6 @@ package com.aiw.entity;
 import java.util.List;
 
 
-@SuppressWarnings("unchecked")
 public class Page {
 	
 	private int pageSize = 20;

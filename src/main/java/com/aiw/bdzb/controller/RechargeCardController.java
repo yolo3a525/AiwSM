@@ -72,6 +72,7 @@ public class RechargeCardController extends BaseController<RechargeCardMapper, R
 	@Autowired
 	TenantMapper tenantMapper;
 	
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/use")
 	@ResponseBody
     public BaseJsonBean use(@ModelAttribute RechargeCard t){

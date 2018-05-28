@@ -56,7 +56,8 @@ public class InfoDetailController extends BaseController<InfoDetailMapper, InfoD
     }
 	
 	public InfoDetail save_p(@ModelAttribute InfoDetail t){
-    	int i = mapper.insert(t);
+    	//int i = 
+    	        mapper.insert(t);
     	return t;
     }
 	
@@ -84,7 +85,7 @@ public class InfoDetailController extends BaseController<InfoDetailMapper, InfoD
 		Map<String,Object> map = new HashMap<String,Object>();
     	map.put("id", id);
     	List<InfoDetail> list = mapper.select(map);
-    	ModelAndView modelAndView = new ModelAndView(); 
+    	//ModelAndView modelAndView = new ModelAndView(); 
     	if(list != null && list.size() > 0) {
     		return list.get(0);
     	}

@@ -35,7 +35,8 @@ public class RentCartController extends BaseController<JewelryMapper, Jewelry>{
 	@Autowired
 	JewelryMapper jewelryMapper;
 	
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list(@ModelAttribute Page page,@ModelAttribute Jewelry t){
 		 List<Integer> list = (List<Integer>)request.getSession().getAttribute("cart");
@@ -60,7 +61,8 @@ public class RentCartController extends BaseController<JewelryMapper, Jewelry>{
     }
 	
 	
-	@RequestMapping(value = "/add/{id}")
+	@SuppressWarnings("unchecked")
+    @RequestMapping(value = "/add/{id}")
 	@ResponseBody
     public List<Integer> addCart(@PathVariable("id") Integer id){
 		List<Integer> list = (List<Integer>)request.getSession().getAttribute("cart");
@@ -83,7 +85,8 @@ public class RentCartController extends BaseController<JewelryMapper, Jewelry>{
 	
     
     
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
     @RequestMapping(value = "/delete/{id}")
 	@ResponseBody
     public Integer delete(@PathVariable("id") Integer id){

@@ -1,9 +1,11 @@
 package com.whs.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.whs.entity.BAbc;
 import com.whs.entity.BAbcExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface BAbcMapper {
     /**

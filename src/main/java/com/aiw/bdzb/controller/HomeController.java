@@ -46,6 +46,7 @@ public class HomeController extends BaseController<JifenMapper, Jifen>{
 	private JewelryMapper jewelryMapper;
 	
 	
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView home(){
     	ModelAndView modelAndeView = new ModelAndView();

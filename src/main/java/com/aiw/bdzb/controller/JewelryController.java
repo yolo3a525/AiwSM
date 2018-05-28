@@ -51,7 +51,8 @@ public class JewelryController extends BaseController<JewelryMapper, Jewelry>{
 	
     
     
-	@Override
+	@SuppressWarnings("rawtypes")
+    @Override
     @RequestMapping(value = {"/list","/listxiajia"}, method = RequestMethod.GET)
     public ModelAndView list(@ModelAttribute Page page,@ModelAttribute Jewelry t){
 	    
@@ -113,11 +114,13 @@ public class JewelryController extends BaseController<JewelryMapper, Jewelry>{
 		return  j;
     }
     
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/batchup")
     @ResponseBody
     public BaseJsonBean batchup(@RequestParam(name="jewelryids",required=true) String jewelryids
             ,@RequestParam(name="showflag",required=true) Integer showflag){
         
+        @SuppressWarnings("rawtypes")
         Map map = new HashMap();
         map.put("jewelryids", jewelryids);
         map.put("showflag", showflag);
@@ -197,7 +200,8 @@ public class JewelryController extends BaseController<JewelryMapper, Jewelry>{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/import")
+	@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
+    @RequestMapping(value="/import")
 	@ResponseBody
 	public BaseJsonBean uploadFileAndSendMail(
 			@RequestParam(value="excel",required=false) MultipartFile file

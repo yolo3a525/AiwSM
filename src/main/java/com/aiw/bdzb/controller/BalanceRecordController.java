@@ -67,7 +67,8 @@ public class BalanceRecordController extends BaseController<BalanceRecordMapper,
 		tenant2.setBalance(tenant.getBalance() + t.getAmount());
 		tenantMapper.update(tenant2);
 		t.setBalance(tenant2.getBalance());
-		BalanceRecord jifen = save_p(t);
+		//BalanceRecord jifen = 
+		        save_p(t);
 		
 		return  bj;
     }

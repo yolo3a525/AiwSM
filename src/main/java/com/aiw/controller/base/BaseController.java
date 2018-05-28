@@ -121,7 +121,8 @@ public abstract class BaseController<M extends BaseMapper<T>,T extends BaseEntit
     public T save_p(@ModelAttribute T t){
     	t.setLastUpdateUser(getUser().getUsername());
     	t.setCreateUser(getUser().getUsername());
-    	int i = mapper.insert(t);
+    	//int i = 
+    	        mapper.insert(t);
     	
     	return t;
     }

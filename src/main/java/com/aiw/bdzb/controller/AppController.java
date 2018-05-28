@@ -254,7 +254,7 @@ public class AppController extends BaseController<JewelryMapper, Jewelry>{
 			//如果预约成功,给后台用户发信息.
 			if(BDZBConstants.getSendAdminFlag() != null 
 					&& BDZBConstants.getSendAdminFlag().equals("1")) {
-				String phone = BDZBConstants.getAdminPhone();
+				//String phone = BDZBConstants.getAdminPhone();
 				System.out.println("发送短信给后台人员.");
 				//RestTest.sendOrderAppointmentAdmin(phone, order.getId()+"");
 				
@@ -344,7 +344,8 @@ public class AppController extends BaseController<JewelryMapper, Jewelry>{
 		//查询是否已被出租
 		List<Jewelry> list = jewelryMapper.select(jewelry);
 		if(list != null && list.size() == 1 && list.get(0).getOrderStatus() == -1) {//才可以被租
-			Map<String, Comparable>  map = new HashMap<String, Comparable>();
+			@SuppressWarnings("rawtypes")
+            Map<String, Comparable>  map = new HashMap<String, Comparable>();
 			map.put("phone", getPhone());
 			map.put("jewelryid",list.get(0).getId());
 			
@@ -403,10 +404,10 @@ public class AppController extends BaseController<JewelryMapper, Jewelry>{
 	}
 
 	public static void main(String[] args) {
-		Integer a = null;
-		if(a == 1) {
-			System.out.println(1);
-		}
+		//Integer a = null;
+//		if(a == 1) {
+//			System.out.println(1);
+//		}
 	}
 
 	@Override
