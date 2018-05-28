@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.OrderMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_order
+	</sql>
+	
+	 <insert id="insertOrderDetail" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.OrderDetail">
+	 	insert into  bdzb_order_detail 
+	 	(  
+			`jewelryid`
+   				,
+			`orderid`
+		) 
+	 	 values (
+			#{jewelryid}
+   				,
+			#{orderid}
+   		)
+   	</insert>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.Order">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`appointmentTime`
+   				,
+   			`startTime`
+   				,
+			`tenantid`
+   				,
+			`deposit`
+   				,
+			`endTime`
+   				,
+   			`excessAmount`
+   				,
+			`status`,`tPhone`,`tName`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+		 	#{appointmentTime}
+   				,
+			#{startTime}
+   				,
+			#{tenantid}
+   				,
+			#{deposit}
+   				,
+			#{endTime}
+   				,
+   			#{excessAmount}
+   				,
+			#{status},#{tPhone},#{tName}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.Order" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="startTime != null">
+			         , startTime = #{startTime}
+			    </if> 
+         		<if test="tPhone != null">
+			         , tPhone = #{tPhone}
+			    </if> 
+			    <if test="tName != null">
+                     , tName = #{tName}
+                </if> 
+         		<if test="price != null">
+			         , price = #{price}
+			    </if> 
+         		<if test="days != null">
+			         , days = #{days}
+			    </if> 
+			    <if test="deposit != null">
+			         , deposit = #{deposit}
+			    </if> 
+			    <if test="depositMethod != null">
+                     , depositMethod = #{depositMethod}
+                </if> 
+			    <if test="endTime != null">
+			         , endTime = #{endTime}
+			    </if> 
+			    
+			     <if test="appointmentTime != null">
+			         , appointmentTime = #{appointmentTime}
+			    </if>
+			    
+         		<if test="status != null">
+			         , status = #{status}
+			    </if>
+			    <if test="locked != null">
+                     , locked = #{locked}
+                </if>
+			    <if test="returnTime != null">
+			         , returnTime = #{returnTime}
+			    </if>
+			    <if test="excessAmount != null">
+			         , excessAmount = #{excessAmount}
+			    </if> 
+			    <if test="overdueAmount != null">
+			         , overdueAmount = #{overdueAmount}
+			    </if> 
+			    
+	    </set>
+	    where id = #{id}
+	 </update>
+	 
+	<select id="get" resultType="com.aiw.bdzb.entity.Order">
+        select * from 
+        <include refid="tableName"></include>  
+		        where id = #{id}  
+    </select>
+	 
+    
+    
+    <select id="select" resultType="com.aiw.bdzb.entity.Order">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    
+     <select id="selectJewelry" resultType="com.aiw.bdzb.entity.OrderDetail">
+        select a.*,b.* from bdzb_order_detail as a left join 
+        bdzb_jewelry as b on a.jewelryid = b.id
+        where a.orderid = #{id}   
+ 		order by a.orderid
+    </select>
+    
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.Order">
+        select a.*,b.phone,(select count(1) from bdzb_order_detail c where c.orderid = a.id) as jewelryCount from 
+        <include refid="tableName"></include> a
+        left join bdzb_tenant b on a.tenantid = b.id
+         <where> 
+         		<if test="t.startTime != null">
+         			<![CDATA[
+			      	and   a.startTime >= #{t.startTime}
+			       ]]>     
+			    </if> 
+			    <if test="t.endTime != null">
+         			<![CDATA[
+			      	and   a.endTime <= #{t.endTime}
+			       ]]>     
+			    </if> 
+			    
+         		<if test="t.phone != null and t.phone !=''">
+			      and   b.phone like '%${t.phone}%'
+			    </if> 
+         		<if test="t.price != null">
+			     and    a.price = #{t.price}
+			    </if> 
+         		<if test="t.days != null">
+			     and    a.days = #{t.days}
+			    </if> 
+			    
+         		<if test="t.status != null and t.status != 100 and t.status != 99">
+			     and    a.status = #{t.status}
+			    </if> 
+			    <!-- 非预租的订单 -->
+			    <if test="t.status != null and t.status == 100">
+			     and    a.status != 0
+			    </if>
+			    
+			    <if test="t.locked != null and t.locked != 0">
+                 and    a.locked = #{t.locked}
+                </if>
+			    
+			    <if test="t.id != null and t.id != 0">
+			     and    a.id = #{t.id}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    
+    <!-- 仅仅是预约状态的才可以移除. -->
+    <delete id="removeJewelryFromOrderList">
+    	delete from bdzb_order_detail
+    	where orderid = (select id from bdzb_order where id = #{id} and status = 0) and jewelryid = #{jewelryid}  
+    </delete>
+    
+    
+     <delete id="deleteDetail">
+    	delete from bdzb_order_detail
+    	where orderid = #{id}  
+    </delete>
+    
+    
+    <select id="selectChart1" resultType="java.util.Map">
+        select a.status,MONTH(a.createTime) as monthNumber ,count(1) as statuscount from 
+        <include refid="tableName"></include> a
+        
+          <where> 
+		    <if test="t.yearNumber != null">
+		       <![CDATA[
+		       and  YEAR(a.createTime) = #{t.yearNumber}
+		        ]]> 
+		    </if> 
+		  </where>
+		  group by a.status,MONTH(a.createTime)
+		  
+    </select>
+    
+    <select id="sumPriceByOrderId" resultType="java.util.Map">
+        select sum(b.price) as totalPrice from
+        bdzb_order_detail a left join bdzb_jewelry b
+        on  a.jewelryid = b.id
+        where a.orderid = #{id} 
+    </select>
+    
+    
+    <select id="orderSummary" resultType="java.util.Map">
+        select a.status,count(1) as statuscount from 
+        <include refid="tableName"></include> a
+          <where> 
+            <if test="t.id != null">
+               <![CDATA[
+               and  a.tenantid = #{t.id}
+                ]]> 
+            </if> 
+          </where>
+          group by a.status
+    </select>
+    
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)  from 
+        <include refid="tableName"></include> a
+          <where> 
+		     <if test="t.endDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') <= #{t.endDate}
+		        ]]> 
+		    </if> 
+		    <if test="t.startDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') >= #{t.startDate}
+		        ]]> 
+		    </if> 
+		     <if test="t.jiedai != null">
+		       <![CDATA[
+		       and (a.status = 1 or a.status = 2)
+		        ]]> 
+		    </if>
+		  </where> 
+    </select>
+    
+    <!-- 5分钟提醒要赶紧去办理 -->
+    <select id="selectAppointmentRemind" resultType="com.aiw.bdzb.entity.Order">
+        select a.*  from 
+        <include refid="tableName"></include> a
+          where a.status = 0 and a.locked = 0 and 
+           <![CDATA[
+          TIMESTAMPDIFF(MINUTE, now(),a.appointmentTime) <= 5
+          ]]> 
+    </select>
+    
+     <select id="selectorderAppointment2HourBefore" resultType="com.aiw.bdzb.entity.Order">
+        select a.*  from 
+        <include refid="tableName"></include> a
+         where a.status = 0 and a.locked = 0 and 
+          <![CDATA[
+            TIMESTAMPDIFF(MINUTE, now(),a.appointmentTime) <= 120
+         ]]> 
+         and
+         <![CDATA[
+            TIMESTAMPDIFF(MINUTE, now(),a.appointmentTime) > 115
+         ]]>
+    </select>
+    
+    
+    
+      <select id="selectorderYuqi" resultType="com.aiw.bdzb.entity.Order">
+        select a.*,TIMESTAMPDIFF(DAY, a.endTime, now()) as chaochuDays from 
+        <include refid="tableName"></include> a
+         where a.status = 1  and 
+          <![CDATA[
+            TIMESTAMPDIFF(DAY, a.endTime, now()) >= -1
+         ]]> 
+     </select>
+
+</mapper>

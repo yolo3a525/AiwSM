@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.mapper.DGMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		base_dg
+	</sql>
+	
+	<resultMap type="com.aiw.entity.DG" id="dg">
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <!-- 关联订单详细 -->
+        <collection property="list" ofType="com.aiw.entity.DD">
+            <id column="groupcode" property="code"/>
+            <result column="groupname" property="name"/>
+         </collection>
+    </resultMap>
+    
+	
+	<select id="findDG" resultMap="dg">
+        select b.*,a.name as groupname from base_dg a,base_dd b 
+        where
+        a.groupcode = b.code
+    </select>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.DG">
+		insert into  <include refid="tableName"></include> 
+		 (`code`,`name`<include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		 values (#{code},#{name} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+    
+    <select id="selectPage" resultType="com.aiw.entity.DG">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+		    <if test="t.code != null and t.code.length()>0">
+		         code like concat('%',#{t.code},'%')
+		    </if> 
+		  </where>
+        order by lastUpdateTime desc
+    </select>
+    
+    <update id="update" parameterType="com.aiw.entity.DG" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = #{lastUpdateUser}
+	      <if test="name != null" >
+	        ,name = #{name}
+	      </if>
+	    </set>
+	    where code = #{code}
+	  </update>
+    
+    
+    <select id="select" resultType="com.aiw.entity.DG">
+        select * from 
+        <include refid="tableName"></include>  
+        
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where code = #{code}  
+    </delete>
+    
+    <select id="get" resultType="com.aiw.entity.DG">
+        select * from 
+        <include refid="tableName"></include>  
+        where code = #{code} 
+    </select>
+    
+</mapper>

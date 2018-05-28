@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.mapper.RoleMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		base_role
+	</sql>
+      
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.Role">
+		insert into
+		<include refid="tableName"></include> 
+		 (name  <include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		values (#{name} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.entity.Role" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = #{lastUpdateUser}
+	      <if test="name != null" >
+	        ,name = #{name}
+	      </if>
+	    </set>
+	    where id = #{id}
+	  </update>
+	
+    
+    <select id="selectPage" resultType="com.aiw.entity.Role">
+        select * from 
+        <include refid="tableName"></include>  
+         <where> 
+		    <if test="t.name != null and t.name.length()>0">
+		         name like concat('%',#{t.name},'%')
+		    </if> 
+		  </where>
+        order by id desc
+    </select>
+    
+    <select id="select" resultType="com.aiw.entity.Role">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}
+		    </if> 
+		  </where>
+    </select>
+    
+    
+    
+    <select id="queryPrivilegeByRoleId"  resultType="com.aiw.entity.Privilege">
+        select a.*,b.role_id as roleId
+		from base_privilege as a 
+		left join (
+		select * from base_role_privilege where role_id = #{id})
+		as b
+		on a.id = b.privilege_id        
+    </select>
+    
+    <delete id="deleteRolePrivilegeByRoleId">
+    	delete from base_role_privilege where role_id = #{id}  
+    </delete>
+    
+ 	<insert id="addRolePrivilege" parameterType="java.util.Map">
+ 		insert into     base_role_privilege values(#{role_id},#{privilege_id} )   
+ 	
+ 	</insert>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+
+    
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.RechargeCardMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_rechargecard
+	</sql>
+	
+	
+	<insert id="batchCreate" parameterType="java.util.List">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`expires`
+   				,
+  
+			`type`
+   				,
+  
+			`days`
+   				,
+  
+			`no`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values 
+		  <foreach collection="list" item="item" index="index" separator="," > 
+   		   (
+			#{item.expires}
+   				,
+			#{item.type}
+   				,
+			#{item.days}
+   				,
+			#{item.no}
+   			,current_timestamp(),current_timestamp(),#{item.createUser},#{item.lastUpdateUser}
+   		   )
+   		  </foreach> 
+	</insert>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.RechargeCard">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`expires`
+   				,
+  
+			`type`
+   				,
+  
+			`days`
+   				,
+  
+			`no`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{expires}
+   				,
+			#{type}
+   				,
+			#{days}
+   				,
+			#{no}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.RechargeCard" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="expires != null">
+			         , expires = #{expires}
+			    </if> 
+         		<if test="type != null">
+			         , type = #{type}
+			    </if> 
+         		<if test="days != null">
+			         , days = #{days}
+			    </if> 
+         		<if test="no != null">
+			         , no = #{no}
+			    </if> 
+			    <if test="status != null">
+			         , status = #{status}
+			    </if> 
+			     <if test="tenantid != null">
+			         , tenantid = #{tenantid}
+			    </if>
+	    </set>
+	    where id = #{id}
+	 </update>
+    
+    <select id="get" resultType="com.aiw.bdzb.entity.RechargeCard">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="getByCardId" resultType="com.aiw.bdzb.entity.RechargeCard">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+            <if test="no != null">
+                no = #{no}  
+            </if> 
+          </where>
+    </select>
+    
+    
+    
+    <select id="select" resultType="com.aiw.bdzb.entity.RechargeCard">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.RechargeCard">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.expires != null">
+			         expires = #{t.expires}
+			    </if> 
+         		<if test="t.type != null">
+			         type = #{t.type}
+			    </if> 
+         		<if test="t.days != null">
+			         days = #{t.days}
+			    </if> 
+         		<if test="t.no != null">
+			         no = #{t.no}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

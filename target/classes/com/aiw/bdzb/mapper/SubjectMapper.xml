@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.SubjectMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_subject
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.Subject">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`content`
+   				,
+  
+			`title`
+   				,
+  
+			`imgFlag`
+   				,
+  
+			`status`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{content}
+   				,
+			#{title}
+   				,
+			#{imgFlag}
+   				,
+			#{status}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.Subject" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="content != null">
+			         , content = #{content}
+			    </if> 
+         		<if test="title != null">
+			         , title = #{title}
+			    </if> 
+         		<if test="imgFlag != null">
+			         , imgFlag = #{imgFlag}
+			    </if> 
+         		<if test="status != null">
+			         , status = #{status}
+			    </if> 
+	    </set>
+	    where id = #{id}
+	 </update>
+    
+    <select id="get" resultType="com.aiw.bdzb.entity.Subject">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    
+    
+    <select id="select" resultType="com.aiw.bdzb.entity.Subject">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.Subject">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.content != null">
+			         content = #{t.content}
+			    </if> 
+         		<if test="t.title != null">
+			         title = #{t.title}
+			    </if> 
+         		<if test="t.imgFlag != null">
+			         imgFlag = #{t.imgFlag}
+			    </if> 
+         		<if test="t.status != null">
+			         status = #{t.status}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

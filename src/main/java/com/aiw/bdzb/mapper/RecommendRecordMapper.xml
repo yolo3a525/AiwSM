@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.RecommendRecordMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_recommendrecord
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.RecommendRecord">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`recommended`
+   				,
+  
+			`referrer`
+   				,
+  
+			`days`
+   				,
+   				`oldVipDeadLine`
+                ,
+                `newVipDeadLine`
+                ,
+			`jifen`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{recommended}
+   				,
+			#{referrer}
+   				,
+			#{days},#{oldVipDeadLine},#{newVipDeadLine}
+   				,
+			#{jifen}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.RecommendRecord" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="recommended != null">
+			         , recommended = #{recommended}
+			    </if> 
+         		<if test="referrer != null">
+			         , referrer = #{referrer}
+			    </if> 
+         		<if test="days != null">
+			         , days = #{days}
+			    </if> 
+         		<if test="jifen != null">
+			         , jifen = #{jifen}
+			    </if> 
+	    </set>
+	    where id = #{id}
+	 </update>
+    
+    <select id="get" resultType="com.aiw.bdzb.entity.RecommendRecord">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    
+    
+    <select id="select" resultType="com.aiw.bdzb.entity.RecommendRecord">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		     <if test="referrer != null">
+		        referrer = #{referrer}  
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.RecommendRecord">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.recommended != null">
+			         recommended = #{t.recommended}
+			    </if> 
+         		<if test="t.referrer != null">
+			         referrer = #{t.referrer}
+			    </if> 
+         		<if test="t.days != null">
+			         days = #{t.days}
+			    </if> 
+         		<if test="t.jifen != null">
+			         jifen = #{t.jifen}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.BalanceRecordMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_balance_record
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" 
+    parameterType="com.aiw.bdzb.entity.BalanceRecord">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`tenantId`
+   				,
+  
+			`method`
+   				,
+            `amount`
+   				,
+  
+			`balance`
+   				
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{tenantId}
+   				,
+			#{method}
+   				,
+			#{amount}
+   				,
+			#{balance}
+   				
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+
+    
+    <select id="get" resultType="com.aiw.bdzb.entity.BalanceRecord">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    
+    
+    <select id="select" resultType="com.aiw.bdzb.entity.BalanceRecord">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="tenantId != null">
+		        tenantId = #{tenantId}  
+		    </if> 
+		  </where>
+		  order by id desc
+    </select>
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.BalanceRecord">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.tenantId != null">
+			         tenantId = #{t.tenantId}
+			    </if> 
+     
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

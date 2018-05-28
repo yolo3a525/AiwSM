@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.TenantMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_tenant
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.Tenant">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`address`
+   				,
+  
+			`accesskey`
+   				,
+   				`vip`
+   				,
+   					`nickName`
+   				,
+  
+			`phone`,
+			loginTimes
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{address}
+   				,
+			#{accesskey}
+   				,
+   				#{vip}
+   				,
+   					#{nickName}
+   				,
+			#{phone}
+			,
+            1
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.Tenant" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="address != null">
+			         , address = #{address}
+			    </if> 
+         		<if test="accesskey != null">
+			         , accesskey = #{accesskey}
+			    </if> 
+			    <if test="nickName != null">
+			         , nickName = #{nickName}
+			    </if> 
+			    <if test="birthday != null">
+			         , birthday = #{birthday}
+			    </if> 
+			    <if test="idCard != null">
+			         , idCard = #{idCard}
+			    </if>
+			    
+			    
+			    <if test="faxing != null">
+                     , faxing = #{faxing}
+                </if>
+                <if test="fuse != null">
+                     , fuse = #{fuse}
+                </if>
+                <if test="lianxing != null">
+                     , lianxing = #{lianxing}
+                </if>
+                <if test="sex != null">
+                     , sex = #{sex}
+                </if>
+                
+			    
+			    <if test="vipCard != null">
+			         , vipCard = #{vipCard}
+			    </if>
+			    <if test="vip != null">
+			         , vip = #{vip}
+			    </if> 
+			    <if test="consumeAmount != null">
+			         , consumeAmount = #{consumeAmount}
+			    </if> 
+			    <if test="jifen != null">
+			         , jifen = #{jifen}
+			    </if> 
+			    <if test="referer != null">
+			         , referer = #{referer}
+			    </if> 
+			    <if test="vipDeadLine != null">
+			         , vipDeadLine = #{vipDeadLine}
+			    </if> 
+			    <if test="balance != null">
+                     , balance = #{balance}
+                </if>
+                
+                <if test="loginTimes != null">
+                     , loginTimes = #{loginTimes}
+                </if>
+	    </set>
+	    where id = #{id}
+	 </update>
+        
+    
+    <select id="get" parameterType="java.lang.Integer"  resultType="com.aiw.bdzb.entity.Tenant">
+         select a.*,datediff(a.vipDeadLine,now()) as tenantDeadLineDays from 
+        <include refid="tableName"></include>  a
+         where a.id = #{id}
+    </select>
+    
+    <select id="getByPhone"  resultType="com.aiw.bdzb.entity.Tenant">
+        select a.*,datediff(a.vipDeadLine,now()) as tenantDeadLineDays from 
+        <include refid="tableName"></include>  a
+         where a.phone = #{phone}
+    </select>
+    
+    
+     <select id="select" resultType="com.aiw.bdzb.entity.Tenant">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if>
+		  </where>
+    </select>
+    
+    
+    <select id="getTotalDeposit" resultType="java.lang.Integer">
+        select sum(deposit) from bdzb_order where status = 1 and tenantid = #{id}
+    </select>
+    
+    <sql id="pageCommon">
+    select * from (
+        
+        select a.*, datediff(vipDeadLine,now()) as tenantDeadLineDays,(select sum(e.price) from bdzb_order_detail b left join bdzb_order c on b.orderid = c.id 
+        left join bdzb_jewelry e on e.id = b.jewelryid 
+         where c.tenantid = a.id) as adornTotalMoney, 
+         (select count(1) from  bdzb_order cc
+         where cc.tenantid = a.id) as adornTimes 
+        from
+
+        <include refid="tableName"></include> a
+         <where> 
+                
+                <if test="t.address != null">
+                    and a.address = #{t.address}
+                </if> 
+                <if test="t.accesskey != null">
+                    and a.accesskey = #{t.accesskey}
+                </if> 
+                <if test="t.phone != null and t.phone  != ''">
+                   and  a.phone like '%${t.phone}%'
+                </if>
+                <if test="t.nickName != null and t.nickName  != ''">
+                   and  a.nickName like '%${t.nickName}%'
+                </if> 
+                 <if test="t.vip != null and t.vip != 99">
+                   and a.vip = #{t.vip}
+                </if> 
+                
+                <if test="t.tenantDeadLine != null and t.tenantDeadLine != 99">
+                   <![CDATA[
+                   and datediff(a.vipDeadLine, now()) <= #{t.tenantDeadLine}
+                    ]]> 
+                </if> 
+                <if test="t.endRegisterDate != null">
+                   <![CDATA[
+                   and DATE_FORMAT(a.createTime,'%Y-%m-%d') <= #{t.endRegisterDate}
+                    ]]> 
+                </if> 
+                <if test="t.startRegisterDate != null">
+                   <![CDATA[
+                   and DATE_FORMAT(a.createTime,'%Y-%m-%d') >= #{t.startRegisterDate}
+                    ]]> 
+                </if> 
+                 </where>
+          
+          ) as a99
+          <where> 
+              <if test="t.adornTotalMoneyQuery != null and t.adornTotalMoneyQuery  != ''">
+                 <![CDATA[
+                    and a99.adornTotalMoney  ${t.adornTotalMoneyQuery}
+                     ]]> 
+                </if> 
+                <if test="t.adornTimesQuery != null and t.adornTimesQuery  != ''">
+                 <![CDATA[
+                    and a99.adornTimes  ${t.adornTimesQuery}
+                   ]]> 
+                </if> 
+           </where>
+          
+        order by a99.id desc
+    </sql>
+    
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.Tenant">
+        <include refid="pageCommon"></include> 
+    </select>
+    
+     <select id="selectExport" resultType="com.aiw.bdzb.entity.Tenant">
+        <include refid="pageCommon"></include> 
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    
+    <select id="selectChart1" resultType="java.util.Map">
+        select a.vip,count(a.vip) as vipcount from 
+        <include refid="tableName"></include> a
+        
+          <where> 
+		     <if test="t.endRegisterDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') <= #{t.endRegisterDate}
+		        ]]> 
+		    </if> 
+		    <if test="t.startRegisterDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') >= #{t.startRegisterDate}
+		        ]]> 
+		    </if> 
+		  </where>
+		  
+		  group by a.vip
+		  
+    </select>
+    
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)  from 
+        <include refid="tableName"></include> a
+         <where> 
+		     <if test="t.endDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') <= #{t.endDate}
+		        ]]> 
+		    </if> 
+		    <if test="t.startDate != null">
+		       <![CDATA[
+		       and DATE_FORMAT(a.createTime,'%Y-%m-%d') >= #{t.startDate}
+		        ]]> 
+		    </if> 
+		  </where> 
+    </select>
+    
+    <update id="updateRecharge" parameterType="java.util.Map" >
+	    update  <include refid="tableName"></include> 
+	    set
+			  vip = #{vip}
+			   ,vipDeadLine = date_add(
+			   <choose>
+			    <when test="vipDeadLine != null">
+			    	vipDeadLine
+			    </when>
+			    <otherwise>
+			       now() 
+			    </otherwise>
+				</choose>
+			   , interval #{days} day)
+	    where id = #{id}
+	 </update>
+    
+    
+    <select id="shengri" resultType="com.aiw.bdzb.entity.Tenant">
+        select * from 
+        <include refid="tableName"></include>  
+         where MONTH(birthday) = MONTH(NOW()) and  DAYOFMONTH(birthday) = DAYOFMONTH(NOW())
+    </select>
+    
+    
+</mapper>

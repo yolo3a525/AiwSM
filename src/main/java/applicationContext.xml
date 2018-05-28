@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		 xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xmlns:task="http://www.springframework.org/schema/task" 
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-5.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="false">
+
+	
+
+	 <!-- 使用注解式注入 -->
+    <context:annotation-config />  
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="com.aiw.mapper;com.aiw.*.mapper" />
+	</bean>
+    
+    <context:component-scan base-package="com.aiw" />
+
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+       <property name="locations">
+           <list>
+               <value>classpath:jdbc.properties</value>
+           </list>
+       </property>
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+    
+	<!-- 配置数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 不使用properties来配置 -->
+		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
+			<property name="url" value="jdbc:mysql://localhost:3306/learning" /> 
+			<property name="username" value="root" /> 
+			<property name="password" value="christmas258@" /> -->
+	   <!-- 使用properties来配置 -->
+		<property name="driverClassName">
+			<value>${jdbc_driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc_url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc_username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc_password}</value>
+		</property>
+	</bean>
+	
+
+
+
+	
+	 <!-- 配置Mybatis的文件 ，mapperLocations配置**Mapper.xml文件位置，configLocation配置mybatis-config文件位置-->  
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="mapperLocations">
+        	<array>
+        		  <value>classpath:com/aiw/mapper/*.xml</value>
+        		  <value>classpath:com/aiw/*/mapper/*.xml</value>
+            </array>
+        </property>
+         <property name="configLocation" value="classpath:mybatis-config.xml" />
+       <!-- <property name="configLocation" value="classpath:mybatis-config.xml" />   
+         <property name="typeAliasesPackage" value="com.tiantian.ckeditor.model"   
+            /> -->  
+              <property name="plugins">  
+       		 <array>  
+            	<bean class="com.aiw.extend.PageInterceptor" /> 
+        	</array>  
+    	</property> 
+            
+    </bean>
+    
+    
+    <!-- 事务相关控制 -->
+    <bean name="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <!-- 通知 -->
+    <tx:advice id="tx"
+        transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="select*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* cn.itcast.mybatis.service.*.*(..))" />
+        <!--把事务控制在Service层-->
+        <aop:advisor pointcut-ref="pc" advice-ref="tx" />
+    </aop:config>
+    
+    <bean id="ddData" class="com.aiw.util.DDData" init-method="init"></bean>
+</beans>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.bdzb.mapper.JewelryMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		bdzb_jewelry
+	</sql>
+	
+	
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into  <include refid="tableName"></include> 
+		  (  
+		 	`sid`
+   				,
+			`price`
+   				,
+			`name`
+			,
+            `showflag`,`hotflag`
+   				,
+   			`label_pinlei`,`label_fengge`,`label_faxing`,`label_fuse`,`label_lianxing`,`label_changjing`,
+   			`designerWords`,`relatedSid`,		  				
+			`typeid`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> )  
+		 values 
+		  <foreach collection="list" item="item" index="index" separator="," > 
+        	(#{item.sid}
+   				,
+			#{item.price}
+   				,
+			#{item.name}
+				,
+			#{item.showflag},#{item.hotflag}
+   				,
+   			#{item.label_pinlei},#{item.label_fengge},#{item.label_faxing},#{item.label_fuse},#{item.label_lianxing},#{item.label_changjing},
+   			#{item.designerWords},#{item.relatedSid},
+			#{item.typeid}
+		 	,current_timestamp(),current_timestamp(),#{item.createUser},#{item.lastUpdateUser}
+		 ) 
+   		  </foreach> 
+	</insert>
+	
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.bdzb.entity.Jewelry">
+		insert into  <include refid="tableName"></include> 
+		 (  
+		 	`sid`
+   				,
+			`rent`
+   				,
+  
+			`price`
+   				,
+  
+			`name`
+   				,
+   			`gysid`
+   				,
+			`hotflag`
+   				,
+			`movieflag`
+   				,
+			`imageflag`
+   				
+   				,  
+   			`showflag`
+                ,
+   			`label_pinlei`,`label_fengge`,`label_faxing`,`label_fuse`,`label_lianxing`,`label_changjing`, 	
+   			`designerWords`,`relatedSid`,			
+			`typeid`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+		 	#{sid},
+		 
+			#{rent}
+   				,
+			#{price}
+   				,
+			#{name}
+			,
+			#{gysid}
+			,
+			#{hotflag}
+			,
+			#{movieflag}
+			,
+			#{imageflag}
+   				,
+			#{showflag}
+   				,
+   			#{label_pinlei},#{label_fengge},#{label_faxing},#{label_fuse},#{label_lianxing},#{label_changjing},
+   			#{designerWords},#{relatedSid},
+			#{typeid}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	<update id="batchup" parameterType="java.util.Map" >
+        update  <include refid="tableName"></include> 
+        set showflag = #{showflag}
+        where id in (#{jewelryids})
+    </update>
+	
+	
+	<update id="update" parameterType="com.aiw.bdzb.entity.Jewelry" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       seq = seq + 1,
+	       lastUpdateTime = current_timestamp(),
+	         lastUpdateUser = #{lastUpdateUser}
+         		<if test="rent != null">
+			         , rent = #{rent}
+			    </if> 
+         		<if test="price != null">
+			         , price = #{price}
+			    </if> 
+         		<if test="name != null">
+			         , name = #{name}
+			    </if> 
+         		<if test="typeid != null">
+			         , typeid = #{typeid}
+			    </if>  
+			     <if test="sid!= null">
+			         , sid = #{sid}
+			    </if>
+			    <if test="hotflag != null">
+			         , hotflag = #{hotflag}
+			    </if>
+			     <if test="hotflag != null">
+                     , showflag = #{showflag}
+                </if>
+			    <if test="movieflag != null">
+			         , movieflag = #{movieflag}
+			    </if> 
+			    <if test="imageflag != null">
+			         , imageflag = #{imageflag}
+			    </if> 
+			    
+			    <if test="label_pinlei != null">
+			         , label_pinlei = #{label_pinlei}
+			    </if> 
+			    <if test="label_lianxing != null">
+			         , label_lianxing = #{label_lianxing}
+			    </if> 
+			     <if test="label_fuse != null">
+			         , label_fuse = #{label_fuse}
+			    </if> 
+			     <if test="label_faxing != null">
+			         , label_faxing = #{label_faxing}
+			    </if> 
+			     <if test="label_fengge != null">
+			         , label_fengge = #{label_fengge}
+			    </if> 
+			     <if test="label_changjing != null">
+			         , label_changjing = #{label_changjing}
+			    </if> 
+			    
+			     <if test="designerWords != null">
+			         , designerWords = #{designerWords}
+			    </if> 
+			    <if test="relatedSid != null">
+			         , relatedSid = #{relatedSid}
+			    </if> 
+	    </set>
+	    where id = #{id}
+	 </update>
+	 
+	 
+ 	
+
+ 	
+ 	<update id="updateImageFlag" parameterType="java.lang.String" >
+        update  <include refid="tableName"></include> 
+        set imageflag = 1 , seq = seq + 1
+        where sid  = #{sid} 
+    </update>
+ 	
+ 	<update id="updateMovieFlag" parameterType="java.lang.String" >
+        update  <include refid="tableName"></include> 
+        set movieflag = 1 , seq = seq + 1
+        where sid  = #{sid} 
+    </update>
+ 	
+ 	<select id="mycart" resultType="com.aiw.bdzb.entity.Jewelry">
+        select b.*,IFNULL(bb.status,-1) as orderStatus,a.status as boxStatus
+        from bdzb_cart a left join bdzb_jewelry b on a.jewelryid = b.id 
+        left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail as b on  c.id = b.orderid 
+            where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.jewelryid
+        
+        where a.phone = #{phone}
+    </select>
+ 	
+ 	<insert id="addToCart">
+        insert into bdzb_cart (phone,jewelryid) values (#{phone},#{jewelryid})
+    </insert>
+    
+    
+    <update id="mycartUpdate">
+        update  bdzb_cart
+        set status = #{map.status}
+        where phone = #{map.phone}
+        <if test="map.jewelryid != null"> 
+         and  jewelryid = #{map.jewelryid}
+        </if>
+    </update>
+    
+    
+    <delete id="deleteJewelryFromCart">
+    	delete from bdzb_cart
+    	where phone = #{phone} and jewelryid = #{jewelryid}
+    </delete>
+    
+      
+    <delete id="clearCart">
+    	delete from bdzb_cart
+    	where phone = #{phone} and jewelryid in
+    	 <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+            #{item}  
+        </foreach>  
+    </delete>
+ 	
+ 	
+    <!-- 可以查询出珠宝是否可以借戴。 -->
+    <select id="select" resultType="com.aiw.bdzb.entity.Jewelry">
+        select a.*,IFNULL(bb.status,-1) as orderStatus,
+        bb.endtime as endtime from 
+        <include refid="tableName"></include>  
+        as a left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail 
+        as b on  c.id = b.orderid where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.id 
+        <where> 
+		    <if test="id != null">
+		        a.id = #{id}  
+		    </if> 
+		 </where>
+    </select>
+    
+    
+    <select id="dayNew3" resultType="com.aiw.bdzb.entity.Jewelry">
+        select * from bdzb_jewelry order by id desc limit 0,3
+    </select>
+    
+    <select id="shouyetuijian" resultType="com.aiw.bdzb.entity.Jewelry">
+    
+        select a.*,IFNULL(bb.status,-1) as orderStatus,
+        bb.endtime as endtime from 
+        <include refid="tableName"></include>  
+        as a left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail 
+        as b on  c.id = b.orderid where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.id
+        where a.showflag = 1 
+        order by a.id desc limit 0,6
+        
+    </select>
+    
+    <select id="dapeituijian" resultType="com.aiw.bdzb.entity.Jewelry">
+    
+        select a.*,IFNULL(bb.status,-1) as orderStatus,
+        bb.endtime as endtime from 
+        <include refid="tableName"></include>  
+        as a left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail 
+        as b on  c.id = b.orderid where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.id 
+        where a.showflag = 1  and a.sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+            #{item}  
+        </foreach> 
+        order by a.id desc limit 0,6
+    </select>
+    
+    
+    <select id="selectCart" resultType="com.aiw.bdzb.entity.Jewelry">
+        select a.*,IFNULL(bb.status,-1) as orderStatus,
+        bb.endtime as endtime from 
+        <include refid="tableName"></include>  
+        as a left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail 
+        as b on  c.id = b.orderid where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.id 
+         where a.id in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+            #{item}  
+        </foreach>  
+    </select>
+    
+    
+    <select id="selectPage" resultType="com.aiw.bdzb.entity.Jewelry">
+        select a.*,bb.id as orderid,bb.endtime as endtime,c.username,IFNULL(bb.status,-1) as orderStatus,
+        ( select count(*) from bdzb_order_detail e left join bdzb_order f 
+        	on e.orderid = f.id where e.jewelryid = a.id and f.status = 2) as times 
+        from 
+        <include refid="tableName"></include> as a left join 
+        (select b.*,c.* from bdzb_order as c left join bdzb_order_detail as b on  c.id = b.orderid 
+        	where (c.status = 0 or c.status = 1))
+        as bb on bb.jewelryid = a.id  left join base_user c on a.gysid = c.id
+         <where> 
+                
+         
+                <if test="m.fengge_s != null">
+                   and a.label_fengge in ( #{m.fengge_s} )
+                </if> 
+                <if test="m.fuse_s != null">
+                   and a.label_fuse in ( #{m.fuse_s} )
+                </if> 
+                <if test="m.faxing_s != null">
+                   and a.label_faxing in ( #{m.faxing_s} )
+                </if> 
+                <if test="m.lianxing_s != null">
+                   and a.label_lianxing in ( #{m.lianxing_s} )
+                </if> 
+                <if test="m.changjing_s != null">
+                   and a.label_changjing in ( #{m.changjing_s} )
+                </if> 
+                <if test="m.zuijinshangxin_s != null">
+                    <![CDATA[
+                   and datediff(now(),a.createTime) <= #{m.zuijinshangxin_s}
+                    ]]>
+                </if> 
+                
+                
+         		<if test="t.rent != null">
+			       and  a.rent = #{t.rent}
+			    </if> 
+         		<if test="t.price != null">
+			       and  a.price = #{t.price}
+			    </if> 
+         		<if test="t.name != null and t.name != ''">
+			       and a.name like '%${t.name}%'
+			    </if>
+			    <if test="t.sid != null and t.sid  != '' ">
+			       and a.sid like '%${t.sid}%'
+			    </if>  
+			    
+			     <if test="t.nameOrSid != null and t.nameOrSid  != '' ">
+                   and ( a.sid like '%${t.nameOrSid}%' or a.name like '%${t.nameOrSid}%' )
+                </if> 
+			    
+         		<if test="t.typeid != null">
+			       and  a.typeid = #{t.typeid}
+			    </if>
+			    <if test="t.orderStatus != null and t.orderStatus != 99">
+			       and  bb.status = #{t.orderStatus}
+			    </if>
+			    <if test="t.hotflag != null and t.hotflag != 99">
+			        and a.hotflag = #{t.hotflag}
+			    </if>
+			    <if test="t.showflag != null and t.showflag != 99">
+                    and a.showflag = #{t.showflag}
+                </if>
+			    <if test="t.gysid != null">
+			        and a.gysid = #{t.gysid}
+			    </if>
+			     <if test="t.username != null and t.username != ''">
+                    and c.username like '%${t.username}%'
+                </if>  			    
+			    <if test="t.movieflag != null and t.movieflag != 99">
+                     and a.movieflag = #{t.movieflag}
+                </if> 
+                <if test="t.imageflag != null and t.imageflag != 99">
+                     and a.imageflag = #{t.imageflag}
+                </if> 
+                <if test="t.label_pinlei != null and t.label_pinlei != 99">
+                     and a.label_pinlei = #{t.label_pinlei}
+                </if> 
+                <if test="t.label_lianxing != null and t.label_lianxing != 99">
+                     and a.label_lianxing = #{t.label_lianxing}
+                </if> 
+                 <if test="t.label_fuse != null and t.label_fuse != 99">
+                     and a.label_fuse = #{t.label_fuse}
+                </if> 
+                 <if test="t.label_faxing != null and t.label_faxing != 99">
+                     and a.label_faxing = #{t.label_faxing}
+                </if> 
+                 <if test="t.label_fengge != null and t.label_fengge != 99">
+                     and a.label_fengge = #{t.label_fengge}
+                </if> 
+                 <if test="t.label_changjing != null and t.label_changjing != 99">
+                     and a.label_changjing = #{t.label_changjing}
+                </if> 
+                
+                <if test="t.onlineTime != null and t.onlineTime != 99">
+                   <![CDATA[
+                   and datediff(now(),a.createTime) <= #{t.onlineTime}
+                    ]]> 
+                </if> 
+			    
+			    
+		  </where>
+        order by a.id desc
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    
+     <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)  from 
+        <include refid="tableName"></include> a
+         <if test=" gysid != null ">
+              where gysid = #{gysid}
+         </if> 
+        
+        
+    </select>
+    <select id="selectCountGys" resultType="java.lang.Integer">
+        select count(1)  from 
+        <include refid="tableName"></include> a
+          where a.gysid != 0
+    </select>
+    
+    <select id="jewelryselectCountShowStatus0" resultType="java.lang.Integer">
+        select count(1)  from 
+        <include refid="tableName"></include> a
+          where a.showflag = 0
+    </select>
+    
+    <select id="jewelryselectCountStatusF1" resultType="java.lang.Integer">
+        select count(1) from (
+        select a.id  from 
+        <include refid="tableName"></include> a
+        left join (
+        select b.jewelryid from 
+        bdzb_order_detail b 
+        left join bdzb_order c on c.id = b.orderid where (c.status = 0 or c.status = 1) ) as bb on a.id = bb.jewelryid
+        where a.showflag = 1 and bb.jewelryid = null 
+         <if test=" gysid != null ">
+              and a.gysid = #{gysid}
+         </if>
+        ) as cc
+    </select>
+    <select id="selectCountStatus20" resultType="java.lang.Integer">
+        select count(1) from 
+        bdzb_order_detail b 
+        left join bdzb_order c on c.id = b.orderid 
+        left join bdzb_jewelry d  on b.jewelryid = d.id 
+        where c.status = 0
+         <if test=" gysid != null ">
+              and d.gysid = #{gysid}
+         </if>
+        
+    </select>
+    <select id="selectCountStatus21" resultType="java.lang.Integer">
+        select count(1) from 
+        bdzb_order_detail b 
+        left join bdzb_order c on c.id = b.orderid 
+        left join bdzb_jewelry d  on b.jewelryid = d.id 
+        where c.status = 1
+         <if test=" gysid != null ">
+              and d.gysid = #{gysid}
+         </if>
+    </select>
+    
+</mapper>

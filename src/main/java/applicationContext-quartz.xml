@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:jee="http://www.springframework.org/schema/jee" 
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xmlns:task="http://www.springframework.org/schema/task" 
+		xmlns:util="http://www.springframework.org/schema/util" 
+		xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="false">
+
+	<!-- 工作的bean -->
+    <bean id="heartJob" class="com.aiw.bdzb.quartz.OrderJob" >
+    </bean>
+    <!-- 生日 -->
+    <bean id="dayJob" class="com.aiw.bdzb.quartz.DayJob" >
+    </bean>
+	
+    <!-- job的配置开始 -->
+    <bean id="heartJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="heartJob" />
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+    
+    <bean id="dayJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="dayJob" />
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+    <!-- job的配置结束 -->
+
+
+    <!-- 调度的配置开始 -->
+    <bean id="heartJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="heartJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0/5 * * * ?</value>  <!-- 每5分钟执行一次  -->
+        </property>
+    </bean>
+    <!-- 调度的配置结束 -->
+    
+    <!-- 调度的配置开始 -->
+    <bean id="dayJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="dayJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0 9 * * ?</value>  <!-- 每天9点  -->
+        </property>
+    </bean>
+    <!-- 调度的配置结束 -->
+    
+    
+    <!-- 启动触发器的配置开始 -->
+    <bean name="myScheduler" lazy-init="true" autowire="no"
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="heartJobTrigger" />
+                <ref bean="dayJobTrigger" />
+            </list>
+        </property>
+        <!-- 延时启动，这个很重要，必须要有足够长的时间让你的应用先启动完成后再让 Scheduler启动，  这里设置60秒,如果你的应用启动时间较长，要相应增加startupDelay的时间--> 
+   		<property name="startupDelay" value="5"/> 
+  
+    </bean>
+    <!-- 启动触发器的配置结束 -->
+    
+	
+</beans>

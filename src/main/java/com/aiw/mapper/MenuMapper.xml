@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.mapper.MenuMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		base_Menu
+	</sql>
+      
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.Menu">
+		insert into
+		<include refid="tableName"></include> 
+		 (name,url,pid,depth,`order`,privilegeCode,icon<include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		values (#{name},#{url},#{pid},#{depth},#{order},#{privilegeCode},#{icon} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	<update id="update" parameterType="com.aiw.entity.Menu" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = #{lastUpdateUser}
+	      <if test="url != null" >
+	        ,url = #{url}
+	      </if>
+	      <if test="name != null" >
+	        ,name = #{name}
+	      </if>
+	      <if test="order != null" >
+	        ,`order` = #{order}
+	      </if>
+	      <if test="icon != null" >
+            ,`icon` = #{icon}
+          </if>
+	        <if test="privilegeCode != null" >
+	        ,`privilegeCode` = #{privilegeCode}
+	      </if>
+	    </set>
+	    where id = #{id}
+	  </update>
+	
+	
+    
+    <select id="selectPage" resultType="com.aiw.entity.Menu">
+        select * from 
+        <include refid="tableName"></include>  
+         <where> 
+		    <if test="t.name != null and t.name.length()>0">
+		         name like concat('%',#{t.name},'%')
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="select" resultType="com.aiw.entity.Menu">
+        select * from 
+        <include refid="tableName"></include>  
+        order by `order` ,id 
+    </select>
+    
+    <select id="selectByUserId" resultType="com.aiw.entity.Menu">
+        select * from 
+        <include refid="tableName"></include>  
+        
+        where privilegeCode in (select b.code from base_role_privilege a left join  
+        	base_privilege b on a.privilege_id = b.id where a.role_id in
+        	(select a.role_id from base_user_role a left join base_user b on a.user_id = b.id where b.id = #{id})
+        )
+        order by `order` ,id 
+    </select>
+    
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    <select id="queryPrivilegeByMenuId"  resultType="com.aiw.entity.Privilege">
+        select a.*,b.Menu_id as MenuId
+		from base_privilege as a 
+		left join (
+		select * from base_Menu_privilege where Menu_id = #{id})
+		as b
+		on a.id = b.privilege_id        
+    </select>
+    
+    <delete id="deleteMenuPrivilegeByMenuId">
+    	delete from base_Menu_privilege where Menu_id = #{id}  
+    </delete>
+    
+ 	<insert id="addMenuPrivilege" parameterType="java.util.Map">
+ 		insert into     base_Menu_privilege values(#{Menu_id},#{privilege_id} )   
+ 	
+ 	</insert>
+    
+
+    
+</mapper>

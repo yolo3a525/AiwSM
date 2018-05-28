@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.auto.mapper.NewsMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		b_news
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.auto.entity.News">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`content`
+   				,
+  
+			`title`
+   				,
+  
+			`module`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{content}
+   				,
+			#{title}
+   				,
+			#{module}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+    
+    <select id="selectPage" resultType="com.aiw.auto.entity.News">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.content != null">
+			         content = #{t.content}
+			    </if> 
+         		<if test="t.title != null">
+			         title = #{t.title}
+			    </if> 
+         		<if test="t.module != null">
+			         module = #{t.module}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

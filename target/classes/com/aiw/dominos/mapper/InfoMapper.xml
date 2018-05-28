@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.dominos.mapper.InfoMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		dominos_info
+	</sql>
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.dominos.entity.Info">
+		insert into  <include refid="tableName"></include> 
+		 (  
+			`regulation`
+   				,
+  
+			`openid`
+   				,
+  
+			`title`
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include> ) 
+		 values (
+			#{regulation}
+   				,
+			#{openid}
+   				,
+			#{title}
+   				
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.dominos.entity.Info" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = 'admin'
+         		<if test="regulation != null">
+			         , regulation = #{regulation}
+			    </if> 
+         		<if test="openid != null">
+			         , openid = #{openid}
+			    </if> 
+         		<if test="title != null">
+			         , title = #{title}
+			    </if> 
+	    </set>
+	    where id = #{id}
+	 </update>
+    
+    <select id="get" resultType="com.aiw.dominos.entity.Info">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    
+    
+    <select id="select" resultType="com.aiw.dominos.entity.Info">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="id != null">
+		        id = #{id}  
+		    </if> 
+		  </where>
+    </select>
+    
+    <select id="selectPage" resultType="com.aiw.dominos.entity.Info">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+         		<if test="t.regulation != null">
+			         regulation = #{t.regulation}
+			    </if> 
+         		<if test="t.openid != null">
+			         openid = #{t.openid}
+			    </if> 
+         		<if test="t.title != null">
+			         title = #{t.title}
+			    </if> 
+		  </where>
+        order by id desc
+    </select>
+    
+    <select id="selectJoinPage" resultType="com.aiw.dominos.entity.Info">
+        select a.* from dominos_infodetail as b left join
+        <include refid="tableName"></include> 
+        as a  on a.id = b.infoid
+         <where> 
+         		<if test="t.openid != null">
+			         b.openid = #{t.openid}
+			    </if>  
+		  </where>
+        order by a.id desc
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+</mapper>

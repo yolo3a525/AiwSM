@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.mapper.DDMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		base_dd
+	</sql>
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.DD">
+		insert into  <include refid="tableName"></include> 
+		 (`groupCode`,`code`,`name`<include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		 values (#{groupCode},#{code},#{name} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+    
+    <select id="selectPage" resultType="com.aiw.entity.DD">
+        select a.*,b.name as groupname from 
+        <include refid="tableName"></include> as a
+        left join base_dg as b on a.groupcode = b.code
+        
+         <where> 
+		    <if test="t.code != null ">
+		       and  (a.code like concat('%',#{t.code},'%') or  a.groupCode like concat('%',#{t.code},'%'))
+		    </if>
+		    <if test="t.name != null ">
+		       and  a.name like concat('%',#{t.name},'%')
+		    </if> 
+		  </where>
+        order by a.lastUpdateTime desc
+    </select>
+    
+    <update id="update" parameterType="com.aiw.entity.DD" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = #{lastUpdateUser}
+	      <if test="name != null" >
+	        ,name = #{name}
+	      </if>
+	    </set>
+	    where code = #{code}
+	  </update>
+    
+    
+    <select id="select" resultType="com.aiw.entity.DD">
+        select * from 
+        <include refid="tableName"></include>  
+    </select>
+    
+    
+    
+    <select id="get" resultType="com.aiw.entity.DD">
+        select * from 
+        <include refid="tableName"></include>  
+        where code = #{code} 
+        
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where code = #{code}  
+    </delete>
+
+    
+</mapper>

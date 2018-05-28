@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.mapper.UserMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		base_user
+	</sql>
+	
+	
+	
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.User">
+		insert into  <include refid="tableName"></include> 
+		 (username,password ,name,phone,email,remark
+		 <include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		 values (#{username},#{password} ,#{name} ,#{phone} ,#{email} ,#{remark} 
+		 <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+	</insert>
+	
+	
+	<update id="update" parameterType="com.aiw.entity.User" >
+	    update  <include refid="tableName"></include> 
+	    <set > 
+	       lastUpdateTime = current_timestamp(),
+	       lastUpdateUser = #{lastUpdateUser}
+	      <if test="username != null" >
+	        ,username = #{username}
+	      </if>
+	      <if test="password != null" >
+	        ,password = #{password}
+	      </if>
+	      <if test="name != null" >
+            ,name = #{name}
+          </if>
+          <if test="phone != null" >
+            ,phone = #{phone}
+          </if>
+          <if test="email != null" >
+            ,email = #{email}
+          </if>
+           <if test="remark != null" >
+            ,remark = #{remark}
+          </if>
+	    </set>
+	    where id = #{id}
+	  </update>
+    
+    <select id="selectPage" resultType="com.aiw.entity.User">
+        select * from 
+        <include refid="tableName"></include> 
+         <where> 
+		    <if test="t.username != null and t.username.length()>0">
+		         username like concat('%',#{t.username},'%')
+		    </if> 
+		  </where>
+        order by id desc
+    </select>
+    
+    <select id="select" resultType="com.aiw.entity.User">
+        select * from 
+        <include refid="tableName"></include>
+        <where> 
+		    <if test="username != null">
+		        username = #{username}
+		    </if>
+		     <if test="id != null">
+		        id = #{id}
+		    </if>
+		  </where>
+    </select>
+    
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    <select id="queryRoleByUserId"  resultType="com.aiw.entity.Role">
+        select a.*,b.User_id as UserId
+		from base_role as a 
+		left join (
+		select * from base_User_role where User_id = #{id})
+		as b
+		on a.id = b.role_id        
+    </select>
+    
+    
+    <select id="queryRoleByUserIds"  resultType="com.aiw.entity.Role">
+        select a.*,b.User_id as UserId
+        from base_role as a 
+        left join (
+        select * from base_User_role where User_id 
+        
+        in
+         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+            #{item}  
+        </foreach>  
+        
+        )
+        as b
+        on a.id = b.role_id        
+    </select>
+    
+    
+    
+    
+    <select id="queryCheckedRoleByUserId"  resultType="com.aiw.entity.Role">
+        select b.* from base_User_role a 
+        left join base_role b on a.role_id = b.id 
+        where a.User_id = #{id}
+     
+    </select>
+    
+    
+    <delete id="deleteUserPrivilegeByUserId">
+    	delete from base_User_role where User_id = #{id}  
+    </delete>
+    
+ 	<insert id="addUserRole" parameterType="java.util.Map">
+ 		insert into   base_user_role values(#{user_id},#{role_id} )   
+ 	</insert>
+    
+
+    
+</mapper>
