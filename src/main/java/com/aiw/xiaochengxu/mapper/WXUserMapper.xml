@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="com.aiw.xiaochengxu.mapper.WXUserMapper">
+
+
+	
+	<!--表名 -->
+	<sql id="tableName">
+		xiaochengxu_user
+	</sql>
+	
+      
+    <insert id="insert" parameterType="com.aiw.xiaochengxu.entity.WXUser">
+		insert into
+		<include refid="tableName"></include> 
+		 (openid,create_time) 
+		values (#{openid},now())  
+	</insert>
+
+    
+
+    <select id="select" resultType="com.aiw.xiaochengxu.entity.WXUser">
+        select * from 
+        <include refid="tableName"></include>  
+          <where> 
+		    <if test="openid != null">
+		        openid = #{openid}
+		    </if> 
+		  </where>
+    </select>
+    
+    <delete id="delete">
+    	delete from <include refid="tableName"></include> 
+    	where id = #{id}  
+    </delete>
+    
+    <select id="selectPage" resultType="com.aiw.xiaochengxu.entity.WXUser" >
+        select * from 
+        <include refid="tableName"></include>  
+         <where> 
+		    <if test="t.name != null and t.name.length()>0">
+		         name = #{t.name}
+		    </if> 
+		  </where>
+        order by id desc
+    </select>
+    
+     
+    
+    
+</mapper>

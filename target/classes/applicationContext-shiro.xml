@@ -47,7 +47,10 @@
 	           	/bdzb/share/**    = anon
 	           	/bdzb/app/**			= anon
 	           	/bdzb/app2/**           = anon
-	           	/api/login             = anon
+	           	/api/login              = anon
+	           	/zycp/api/answer/save   = anon
+	           	/zycp/user/**           = anon
+	           	/xiaochengxu/**           = anon
 	           	/**/*.*					= anon
 	           	/**						= authc,allcheck
 				</value>

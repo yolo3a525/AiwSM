@@ -43,6 +43,8 @@
     <mapping path="/*/*/graph" decorator="/WEB-INF/decorator-onlycss.jsp" />
 
     <!-- 指明满足“/exclude.jsp*”的页面，将被排除，不被装饰 -->
+    <mapping path="/zycp/index.html" exclue="true" />
+    <mapping path="/zycp/user/**" exclue="true" />
     <mapping path="/login*" exclue="true" />
     <mapping path="/logout*" exclue="true" />
     <mapping path="/bdzb/subject/previewapp/*" exclue="true" />
