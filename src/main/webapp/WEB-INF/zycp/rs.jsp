@@ -8,6 +8,7 @@ String desc = (String)request.getAttribute("desc");
 %>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
    		<link rel="stylesheet" href="/zycp/css/jquery.mobile-1.4.5.min.css" />
 		<script src="/zycp/js/jquery.js"></script>
@@ -22,6 +23,10 @@ String desc = (String)request.getAttribute("desc");
 		<div role="main" id="qlist" class="ui-content jqm-content">
         <p>
 		<%=desc %>
+        </p>
+        
+        <p>
+                            你的邮箱也会收到你的测评结果！
         </p>
     	</div>
 </div>
