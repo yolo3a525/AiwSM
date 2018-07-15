@@ -36,10 +36,10 @@ public class DDData {
 		List<DD> ddList = ddMapper.select();
 		
 		for (DD d : ddList) {
-			if(dd.get(d.getGroupCode()) == null) {
-				dd.put(d.getGroupCode(), new LinkedHashMap<String,String>());
+			if(dd.get(d.getDgCode()) == null) {
+				dd.put(d.getDgCode(), new LinkedHashMap<String,String>());
 			}
-			dd.get(d.getGroupCode()).put(d.getCode(), d.getName());
+			dd.get(d.getDgCode()).put(d.getDdValue(), d.getDdItem());
 		}
 		
 		

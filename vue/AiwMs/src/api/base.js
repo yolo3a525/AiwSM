@@ -37,15 +37,21 @@ store.state.loading = false;
 // http响应拦截器
 instance.interceptors.response.use(data => {// 响应成功关闭loading
   store.state.loading = false;
+  //debugger;
  //loadinginstace.close()
- if(data.data.message != null){
-   Message.error({
-     message: data.data.message
-   })
-   return Promise.reject(data.data.message)
- }else{
-    return data
+ if(data.data.code != 0){
+  if(data.data.code == 100){
+    location.href = "/#/login";
+ } else{
+  Message.error({
+    message: data.data.msg
+  })
+  return Promise.reject(data.data.msg)
  }
+  
+ }else{
+   return data
+}
 }, error => {
 store.state.loading = false;
  //loadinginstace.close()

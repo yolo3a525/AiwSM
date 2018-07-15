@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aiw.controller.api.BaseController;
+import com.aiw.api.base.controller.BaseController;
 import com.aiw.entity.KeyValue;
 import com.aiw.entity.Page;
 import com.aiw.entity.SysResult;

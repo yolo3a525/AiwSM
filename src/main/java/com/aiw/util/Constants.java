@@ -8,7 +8,8 @@ package com.aiw.util;
  */
 public class Constants {
 	
-	public static String PICTURE_VISIT_FILE_PATH = "";//图片访问的路径
+	public static final int PAGE_SIZE = 10;
+    public static String PICTURE_VISIT_FILE_PATH = "";//图片访问的路径
 	public static String PICTURE_SAVE_FILE_PATH = "";//图片存放的路径
 	public static String getPICTURE_VISIT_FILE_PATH() {
 		return PICTURE_VISIT_FILE_PATH;

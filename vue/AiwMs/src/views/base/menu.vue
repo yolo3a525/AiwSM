@@ -1,15 +1,15 @@
 <template>
 	<section>
 
-	<el-row>
-	  <el-col :span="8">
+
+	  <el-col :span="6">
 			<el-tree :data="data"
 			 node-key="id"
 			 ref="treeabc"
 			:props="defaultProps" :default-expand-all="true" :expand-on-click-node="false" :highlight-current="true" @node-click="handleNodeClick">
 		</el-tree>
 		</el-col>
-	  <el-col :span="14">
+	  <el-col :span="6">
 				<el-form :model="editForm" label-width="80px" :rules="formRules" ref="editForm">
 					<el-form-item label="名称" prop="name">
 						<el-input v-model="editForm.name" auto-complete="off"></el-input>
@@ -23,6 +23,9 @@
 					<el-form-item label="顺序" prop="order">
 						<el-input v-model="editForm.order" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item label="icon" prop="icon">
+						<el-input v-model="editForm.icon" auto-complete="off"></el-input>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="editSubmit">修改</el-button>
 						<el-button @click="handleDel">删除</el-button>
@@ -30,11 +33,11 @@
 					</el-form-item>
 				</el-form>
 		</el-col>
-	</el-row>
+
 	
 
 	<!--新增界面-->
-	<el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
+	<el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
 		<el-form :model="addForm" label-width="80px" :rules="formRules" ref="addForm">
 			<el-form-item label="名称" prop="name">
 				<el-input v-model="addForm.name" auto-complete="off"></el-input>
@@ -47,6 +50,9 @@
 			</el-form-item>
 			<el-form-item label="顺序" prop="order">
 				<el-input v-model="addForm.order" auto-complete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="icon" prop="icon">
+				<el-input v-model="addForm.icon" auto-complete="off"></el-input>
 			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">

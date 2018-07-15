@@ -4,22 +4,29 @@ import java.util.List;
 
 public class DG extends BaseEntity {
 	
-	private String code;
-	private String name;
+	private String dgCode;
+	private String dgName;
+	private String dgRemark;
 	
-	private List<DD> list;
+	public String getDgRemark() {
+        return dgRemark;
+    }
+    public void setDgRemark(String dgRemark) {
+        this.dgRemark = dgRemark;
+    }
+    private List<DD> list;
 	
-	public String getCode() {
-		return code;
+	public String getDgCode() {
+		return dgCode;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setDgCode(String code) {
+		this.dgCode = code;
 	}
-	public String getName() {
-		return name;
+	public String getDgName() {
+		return dgName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDgName(String name) {
+		this.dgName = name;
 	}
 	public List<DD> getList() {
 		return list;

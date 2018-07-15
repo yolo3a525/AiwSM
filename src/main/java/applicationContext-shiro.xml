@@ -52,7 +52,7 @@
 	           	/zycp/user/**           = anon
 	           	/xiaochengxu/**           = anon
 	           	/**/*.*					= anon
-	           	/**						= authc,allcheck
+	           	/**						= allcheck
 				</value>
 			</property>
 			

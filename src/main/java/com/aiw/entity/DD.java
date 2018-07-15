@@ -2,35 +2,42 @@ package com.aiw.entity;
 
 public class DD extends BaseEntity {
 	
-	private String code;
-	private String name;
-	private String groupCode;
-	private String groupName;
+	private String ddValue;
+	private String ddItem;
+	private String dgCode;
+	private String dgName;
+	private String ddRemark;
 	
 	
-	public String getCode() {
-		return code;
+	public String getDdRemark() {
+        return ddRemark;
+    }
+    public void setDdRemark(String ddRemark) {
+        this.ddRemark = ddRemark;
+    }
+    public String getDdValue() {
+		return ddValue;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setDdValue(String code) {
+		this.ddValue = code;
 	}
-	public String getName() {
-		return name;
+	public String getDdItem() {
+		return ddItem;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDdItem(String name) {
+		this.ddItem = name;
 	}
-	public String getGroupCode() {
-		return groupCode;
+	public String getDgCode() {
+		return dgCode;
 	}
-	public void setGroupCode(String groupCode) {
-		this.groupCode = groupCode;
+	public void setDgCode(String groupCode) {
+		this.dgCode = groupCode;
 	}
-	public String getGroupName() {
-		return groupName;
+	public String getDgName() {
+		return dgName;
 	}
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	public void setDgName(String groupName) {
+		this.dgName = groupName;
 	}
 	
 	

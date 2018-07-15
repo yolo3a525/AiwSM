@@ -1,5 +1,7 @@
-package com.aiw.controller.api;
+package com.aiw.api.base.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aiw.entity.BaseEntity;
 import com.aiw.entity.Page;
@@ -33,6 +39,29 @@ public abstract class BaseController<M extends BaseMapper<T>,T extends BaseEntit
 	protected M mapper;
 	protected List<T> list;
 	protected T t;
+	
+	/**
+     * 登录认证异常
+     */
+    @ExceptionHandler({ UnauthenticatedException.class, AuthenticationException.class })
+    @ResponseBody
+    public SysResult authenticationException(HttpServletRequest request, HttpServletResponse response) {
+        if (isAjaxRequest(request)) {
+            return SysResult.nologin();
+        } 
+        return null;
+    }
+    
+
+    
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        String requestedWith = request.getHeader("x-requested-with");
+        if (requestedWith != null && requestedWith.equalsIgnoreCase("XMLHttpRequest")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 			
 	/**

@@ -1,24 +1,23 @@
-package com.aiw.controller.base;
+package com.aiw.api.base.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.aiw.entity.BaseJsonBean;
 import com.aiw.entity.DD;
 import com.aiw.entity.Page;
+import com.aiw.entity.SysResult;
 import com.aiw.mapper.DDMapper;
 import com.aiw.util.DDData;
 
-@Controller
-@Scope("prototype")
-@RequestMapping(value="/dd")
+@RestController(value="ApiDDController")
+@RequestMapping(value="/api/dd")
 public class DDController extends BaseController<DDMapper, DD>{
 	
 	@Autowired
@@ -27,7 +26,7 @@ public class DDController extends BaseController<DDMapper, DD>{
 	
 	@Override
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list(@ModelAttribute Page page,@ModelAttribute DD t){
+    public SysResult list(@ModelAttribute Page page,@ModelAttribute DD t){
     	return  list_p(page, t);
     }
 	
@@ -41,8 +40,8 @@ public class DDController extends BaseController<DDMapper, DD>{
 	@Override
     @RequestMapping(value = "/save")
 	@ResponseBody
-    public DD save(@ModelAttribute DD t){
-		DD d = save_p(t);
+    public SysResult save(@RequestBody DD t){
+	    SysResult d = save_p(t);
 		refresh();
 		return  d;
     }
@@ -50,65 +49,61 @@ public class DDController extends BaseController<DDMapper, DD>{
 	@Override
     @RequestMapping(value = "/update")
 	@ResponseBody
-	public BaseJsonBean update(DD t) {
-		bj = update_p(t);
+	public SysResult update(@RequestBody DD t) {
+	    SysResult bj = update_p(t);
 		refresh();
 		return bj;
 	}
     
-    @RequestMapping(value = "/delete/{code}")
+    @RequestMapping(value = "/delete/{dgCode}/{ddItem}")
 	@ResponseBody
-    public Integer delete(@PathVariable("code") String code){
-    	int i = mapper.delete(code);
+    public SysResult delete(@PathVariable("dgCode") String dgCode,@PathVariable("ddItem") String ddItem){
+    	int i = mapper.delete(dgCode,ddItem);
 		refresh();
-		return i;
+		return SysResult.oK();
     }
     
 	@Override
     @RequestMapping(value = "/{id}")
-    public ModelAndView get(@PathVariable("id") Integer id){
+    public SysResult get(@PathVariable("id") Integer id){
 		return get_p(id);
     }
         
 	@Override
     @RequestMapping(value = "")
-    public ModelAndView get(){
+    public SysResult get(){
     	return get_p();
     }
 	
 	@RequestMapping(value = "/badd/{groupCode}")
-	public ModelAndView badd(@PathVariable("groupCode") String groupCode) {
-		ModelAndView modelAndView = new ModelAndView(); 
+	public SysResult badd(@PathVariable("groupCode") String groupCode) {
+		SysResult SysResult = new SysResult(); 
 		DD dd = new DD();
-		dd.setGroupCode(groupCode);
-		setJspItemPath(modelAndView);
-		modelAndView.addObject("edit",dd);
-		return modelAndView; 
+		dd.setDgCode(groupCode);
+		return SysResult; 
 	}
 
 	@RequestMapping(value = "/bedit/{code}")
-	public ModelAndView bupdate(@PathVariable("code") String code) {
-    	ModelAndView modelAndView = new ModelAndView(); 
-    		setJspItemPath(modelAndView);
-    		modelAndView.addObject("edit", mapper.get(code));
-	    return modelAndView; 
+	public SysResult bupdate(@PathVariable("code") String code) {
+    	SysResult SysResult = new SysResult(); 
+	    return SysResult; 
 	}
 
 
 	@Override
-	public ModelAndView bupdate(Integer id) {
+	public SysResult bupdate(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer delete(Integer id) {
+	public SysResult delete(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModelAndView badd() {
+	public SysResult badd() {
 		// TODO Auto-generated method stub
 		return null;
 	}

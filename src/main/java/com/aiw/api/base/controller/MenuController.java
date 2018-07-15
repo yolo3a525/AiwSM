@@ -1,45 +1,43 @@
-package com.aiw.controller.api;
+package com.aiw.api.base.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.aiw.entity.Menu;
 import com.aiw.entity.Page;
-import com.aiw.entity.Privilege;
 import com.aiw.entity.SysResult;
-import com.aiw.mapper.PrivilegeMapper;
+import com.aiw.mapper.MenuMapper;
 
-@RestController(value="ApiPrivilegeController")
-@RequestMapping(value="/api/privilege")
-public class PrivilegeController extends BaseController<PrivilegeMapper, Privilege>{
+@Controller(value="ApiMenuController")
+@RequestMapping(value="/api/menu")
+public class MenuController extends BaseController<MenuMapper, Menu>{
    
-	
 	@Override
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public SysResult list(@ModelAttribute Page page,@ModelAttribute Privilege t){
+    public SysResult list(@ModelAttribute Page page,@ModelAttribute Menu t){
     	return  list_p(page, t);
     }
     
 	@Override
     @RequestMapping(value = "/save")
 	@ResponseBody
-    public SysResult save(@RequestBody Privilege t){
+    public SysResult save(@RequestBody Menu t){
 		return  save_p(t);
     }
 	
-	@Override
-    @RequestMapping(value = "/update")
+	@RequestMapping(value = "/update")
 	@ResponseBody
-	public SysResult update(@RequestBody Privilege t) {
+	public SysResult update(@RequestBody Menu t) {
 		return update_p(t);
 	}
     
@@ -61,43 +59,51 @@ public class PrivilegeController extends BaseController<PrivilegeMapper, Privile
     public SysResult get(){
     	return get_p();
     }
+		
 	
-	
-	@RequestMapping(value = "/tree", method = RequestMethod.GET)
+	@RequestMapping(value = "/tree")
+	@ResponseBody
     public SysResult tree(){
+	    
+	    
+	    
+	    
     	
-		 List<Privilege>  list = mapper.select();
+		 List<Menu>  list = mapper.select();
 		 
-		 Map<Integer,Privilege> all = new HashMap<>();
-		 Privilege root = new Privilege();
+		 Map<Integer,Menu> all = new HashMap<>();
+		 Menu root = new Menu();
 		 root.setName("根");
-		 root.setChildren(new ArrayList<Privilege>());
+		 root.setChildren(new ArrayList<Menu>());
 		 root.setDepth(0);
+		 root.setId(0);
 		 
 		 all.put(0, root);
 		 
 		 int dept = 1;
 		 for(int i = 0;i < dept;i++) {
-			 for (Privilege Privilege : list) {
+			 for (Menu menu : list) {
 				 //按照深度遍历
-				 if(i == 0 && Privilege.getDepth() > dept) {
-					 dept = Privilege.getDepth();
+				 if(i == 0 && menu.getDepth() > dept) {
+					 dept = menu.getDepth();
 				 }
-				 if((Privilege.getDepth() - 1) == i) {
-					 all.put(Privilege.getId(), Privilege);
+				 if((menu.getDepth() - 1) == i) {
+					 all.put(menu.getId(), menu);
 					 
-					 if(Privilege.getPid()== null) {
-						 Privilege.setPid(0);
+					 if(menu.getPid()== null) {
+						 menu.setPid(0);
 					 }
-					 if(all.get(Privilege.getPid()).getChildren() == null) {
-						 all.get(Privilege.getPid()).setChildren(new ArrayList<Privilege>());
+					 if(all.get(menu.getPid()).getChildren() == null) {
+						 all.get(menu.getPid()).setChildren(new ArrayList<Menu>());
 					 }
-					 all.get(Privilege.getPid()).getChildren().add(Privilege);
+					 all.get(menu.getPid()).getChildren().add(menu);
 				 }
 			}
 		 }
-		 SysResult SysResult = new SysResult();
-	     return SysResult;  
+		 //SysResult SysResult = new SysResult();
+		 //SysResult.addObject("tree", JSONArray.fromObject(all.get(0)).toString().replaceAll("text", "name"));
+	     //SysResult.setViewName("/menu/list");  
+	     return SysResult.oK(root);  
     }
 	
 	@Override
@@ -111,6 +117,6 @@ public class PrivilegeController extends BaseController<PrivilegeMapper, Privile
 	public SysResult bupdate(@PathVariable("id") Integer id) {
 		return get_p();
 	}
-    
+	
 }
 	

@@ -41,11 +41,20 @@ public class LoginController extends BaseController<UserMapper, User>{
 	@Autowired
 	MenuMapper menuMapper;
 	
-	
+     public static boolean isAjaxRequest(HttpServletRequest request) {
+         String requestedWith = request.getHeader("x-requested-with");
+         if (requestedWith != null && requestedWith.equalsIgnoreCase("XMLHttpRequest")) {
+             return true;
+         } else {
+             return false;
+         }
+     }
 	
 	
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(){
+        
+       
     	
 		 ModelAndView modelAndView = new ModelAndView(); 
 	     modelAndView.setViewName("/login");  

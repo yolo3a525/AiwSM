@@ -1,4 +1,4 @@
-package com.aiw.controller.api;
+package com.aiw.api.base.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.aiw.entity.Menu;
 import com.aiw.entity.Page;
@@ -28,7 +29,7 @@ import com.aiw.mapper.MenuMapper;
 import com.aiw.mapper.UserMapper;
 import com.aiw.util.MD5;
 
-@Controller(value="ApiLoginController")
+@RestController(value="ApiLoginController")
 public class LoginController extends BaseController<UserMapper, User>{
    
 	@Autowired  
@@ -65,6 +66,12 @@ public class LoginController extends BaseController<UserMapper, User>{
         SysResult SysResult = new SysResult(); 
 	    return SysResult;  
 	}
+    
+    @RequestMapping(value="/api/tokenexpired")
+    public SysResult tokenexpired()throws Exception{
+        return SysResult.build(SysResult.NO_LOGIN_ERROR, "token expired");
+    }
+
 	
 	
 	/**请求登录，验证用户

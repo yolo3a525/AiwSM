@@ -1,4 +1,4 @@
-package com.aiw.controller.api;
+package com.aiw.api.base.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -7,54 +7,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aiw.entity.DG;
 import com.aiw.entity.Page;
+import com.aiw.entity.RequestRecord;
 import com.aiw.entity.SysResult;
-import com.aiw.mapper.DGMapper;
+import com.aiw.mapper.RequestRecordMapper;
 
-@Controller(value="ApiDGController")
-@RequestMapping(value="/api/dg")
-public class DGController extends BaseController<DGMapper, DG>{
-	
-	
-	
+@Controller(value="ApiRequestRecordController")
+@RequestMapping(value="/api/requestRecord")
+public class RequestRecordController extends BaseController<RequestRecordMapper, RequestRecord>{
+   
+
 	@Override
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public SysResult list(@ModelAttribute Page page,@ModelAttribute DG t){
+    public SysResult list(@ModelAttribute Page page,@ModelAttribute RequestRecord t){
     	return  list_p(page, t);
     }
-	
     
 	@Override
     @RequestMapping(value = "/save")
 	@ResponseBody
-    public SysResult save(@ModelAttribute DG t){
-	    SysResult d = save_p(t);
-		return  d;
+    public SysResult save(@ModelAttribute RequestRecord t){
+		return  save_p(t);
     }
 	
 	@Override
     @RequestMapping(value = "/update")
 	@ResponseBody
-	public SysResult update(DG t) {
-	    SysResult bj = update_p(t);
-		return bj;
+	public SysResult update(RequestRecord t) {
+		return update_p(t);
 	}
     
 	@Override
+    @RequestMapping(value = "/delete/{id}")
 	@ResponseBody
     public SysResult delete(@PathVariable("id") Integer id){
 		return delete_p(id);
     }
     
-	
-	@RequestMapping(value = "/delete/{code}")
-	@ResponseBody
-    public Integer delete(@PathVariable("code") String code){
-    	int i = mapper.delete(code);
-		return i;
-    }
-	
 	@Override
     @RequestMapping(value = "/{id}")
     public SysResult get(@PathVariable("id") Integer id){
@@ -66,23 +55,18 @@ public class DGController extends BaseController<DGMapper, DG>{
     public SysResult get(){
     	return get_p();
     }
+	
 	@Override
 	@RequestMapping(value = "/badd")
 	public SysResult badd() {
 		return get_p();
 	}
 
-	@RequestMapping(value = "/bedit/{code}")
-	public SysResult bupdate(@PathVariable("code") String code) {
-    	SysResult SysResult = new SysResult(); 
-	    return SysResult; 
-	}
-
-
 	@Override
-	public SysResult bupdate(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "/bedit/{id}")
+	public SysResult bupdate(@PathVariable("id") Integer id) {
+		return get_p();
 	}
+	
 }
 	

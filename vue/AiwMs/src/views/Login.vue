@@ -68,7 +68,6 @@
                 var new2 = [];
 
                 localStorage.setItem('user', JSON.stringify(data.data.data.info));
-                
                 localStorage.setItem('menu', JSON.stringify(data.data.data.menu));
                   // var menu2 = null;
                   // var node = null;

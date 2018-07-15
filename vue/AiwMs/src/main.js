@@ -2,7 +2,7 @@ import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css';
 //import './assets/theme/theme-green/index.css'
 
 import VueRouter from 'vue-router'
@@ -13,7 +13,7 @@ import Vuex from 'vuex'
 
 import routes from './routes'
 
-import 'font-awesome/css/font-awesome.min.css'
+//import 'font-awesome/css/font-awesome.min.css'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -25,6 +25,7 @@ const router = new VueRouter({
   routes
 })
 router.options.routes = [];
+//debugger;
 if(localStorage.getItem('menu') != null && localStorage.getItem('menu') != "undefined"){
   let menu = JSON.parse(localStorage.getItem('menu'))
   console.log(menu)
@@ -36,7 +37,7 @@ if(localStorage.getItem('menu') != null && localStorage.getItem('menu') != "unde
         path: '/',
         component: require('./views/Home.vue'),
         name: menu[i].name,
-        iconCls: 'fa fa-bar-chart',
+        iconCls: menu[i].icon ,
         children: []
       }
       for(var k = 0; k < menu[i].children.length;k++){

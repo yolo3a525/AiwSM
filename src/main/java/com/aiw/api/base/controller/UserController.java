@@ -1,4 +1,4 @@
-package com.aiw.controller.api;
+package com.aiw.api.base.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;

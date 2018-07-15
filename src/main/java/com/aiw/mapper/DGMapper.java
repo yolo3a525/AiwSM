@@ -10,7 +10,7 @@ public interface DGMapper extends BaseMapper<DG> {
 
 	DG get(@Param("code")String code);
 
-	Integer delete(String code);
+	Integer delete(String dgCode);
 	
 	List<DG> findDG();
 }

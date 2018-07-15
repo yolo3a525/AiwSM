@@ -9,35 +9,35 @@
 	</sql>
 	
 	<resultMap type="com.aiw.entity.DG" id="dg">
-        <result column="code" property="code"/>
-        <result column="name" property="name"/>
+        <result column="dg_code" property="dgCode"/>
+        <result column="dg_name" property="dgName"/>
         <!-- 关联订单详细 -->
         <collection property="list" ofType="com.aiw.entity.DD">
-            <id column="groupcode" property="code"/>
-            <result column="groupname" property="name"/>
+            <id column="dg_code" property="dgCode"/>
+            <result column="dg_name" property="dgName"/>
          </collection>
     </resultMap>
     
 	
 	<select id="findDG" resultMap="dg">
-        select b.*,a.name as groupname from base_dg a,base_dd b 
+        select b.*,a.* from base_dg a,base_dd b 
         where
-        a.groupcode = b.code
+        a.dg_code = b.dg_code
     </select>
 	
 	
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aiw.entity.DG">
 		insert into  <include refid="tableName"></include> 
-		 (`code`,`name`<include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
-		 values (#{code},#{name} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
+		 (`dg_code`,`dg_name`,`dg_remark`<include refid="com.aiw.mapper.Common.createEntityColumn"></include>) 
+		 values (#{dgCode},#{dgName} ,#{dgRemark} <include refid="com.aiw.mapper.Common.createEntityColumnValue"></include>) 
 	</insert>
     
     <select id="selectPage" resultType="com.aiw.entity.DG">
         select * from 
         <include refid="tableName"></include> 
          <where> 
-		    <if test="t.code != null and t.code.length()>0">
-		         code like concat('%',#{t.code},'%')
+		    <if test="t.dgCode != null and t.dgCode.length()>0">
+		         dg_code like concat('%',#{t.dgCode},'%')
 		    </if> 
 		  </where>
         order by lastUpdateTime desc
@@ -48,11 +48,14 @@
 	    <set > 
 	       lastUpdateTime = current_timestamp(),
 	       lastUpdateUser = #{lastUpdateUser}
-	      <if test="name != null" >
-	        ,name = #{name}
+	      <if test="dgName != null" >
+	        ,dg_name = #{dgName}
 	      </if>
+	      <if test="dgRemark != null" >
+            ,dg_remark = #{dgRemark}
+          </if>
 	    </set>
-	    where code = #{code}
+	    where dg_code = #{dgCode}
 	  </update>
     
     
@@ -64,13 +67,13 @@
     
     <delete id="delete">
     	delete from <include refid="tableName"></include> 
-    	where code = #{code}  
+    	where dg_code = #{dgCode}
     </delete>
     
     <select id="get" resultType="com.aiw.entity.DG">
         select * from 
         <include refid="tableName"></include>  
-        where code = #{code} 
+        where dg_code = #{dgCode}
     </select>
     
 </mapper>

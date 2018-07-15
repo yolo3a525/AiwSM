@@ -7,6 +7,6 @@ import com.aiw.entity.DD;
 public interface DDMapper extends BaseMapper<DD> {
 
 	DD get(@Param("code")String code);
-	Integer delete(String code);
+	Integer delete(@Param("dgCode") String dgCode,@Param("ddItem") String ddItem);
 
 }

@@ -1,13 +1,11 @@
 <template>
 	<el-row class="container">
 		<el-col :span="24" class="header">
-			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName}}
-			</el-col>
-			<el-col :span="10">
-				<div class="tools" @click.prevent="collapse">
+			<el-col :span="10" class="logo">
+				{{sysName}}
+				<span class="tools" @click.prevent="collapse">
 					<i class="fa fa-align-justify"></i>
-				</div>
+				</span>
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
@@ -23,7 +21,7 @@
 		<el-col :span="24" class="main">
 			<aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 				<!--导航菜单-->
-				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
+				<el-menu :default-active="$route.path" class="el-menu-vertical-demo expanded" @open="handleopen" @close="handleclose" @select="handleselect"
 					 unique-opened router v-show="!collapsed">
 					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
 						<el-submenu :index="index+''" v-if="!item.leaf">
@@ -77,7 +75,7 @@
 	export default {
 		data() {
 			return {
-				sysName:'Aiw Admin',
+				sysName:'珠宝管理系统',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: avatar,
@@ -122,6 +120,7 @@
 			//折叠导航栏
 			collapse:function(){
 				this.collapsed=!this.collapsed;
+				debugger;
 			},
 			showMenu(i,status){
 				this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
@@ -180,9 +179,9 @@
 				font-size: 22px;
 				padding-left:20px;
 				padding-right:20px;
-				border-color: rgba(238,241,146,0.3);
-				border-right-width: 1px;
-				border-right-style: solid;
+				//border-color: rgba(238,241,146,0.3);
+				//border-right-width: 1px;
+				//border-right-style: solid;
 				img {
 					width: 40px;
 					float: left;
@@ -236,6 +235,9 @@
 						display:none;
 					}
 				}
+				.expanded{
+					width:230px;
+				}
 			}
 			.menu-collapsed{
 				flex:0 0 60px;
@@ -246,9 +248,9 @@
 				width: 230px;
 			}
 			.content-container {
-				// background: #f1f2f7;
+				//background: #f1f2f7;
 				flex:1;
-				// position: absolute;
+				//position: relative;
 				// right: 0px;
 				// top: 0px;
 				// bottom: 0px;

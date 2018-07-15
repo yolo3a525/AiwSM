@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aiw.controller.api.BaseController;
+import com.aiw.api.base.controller.BaseController;
 import com.aiw.entity.Page;
 import com.aiw.entity.SysResult;
 import com.aiw.zycp.entity.Answer;

@@ -70,44 +70,57 @@ public class CreateCode {
 			/*生成controller*/
 			
 			String src = "code/src/main/java/";
+			String vue = "code/vue/src/views/";
+			String vuejs = "code/vue/api/";
 			String jsp = "code/src/main/webapp/WEB-INF/"+module+"/";
 			String db  = "code/db/";
 			
 			//先删除之前的代码
 			DelAllFile.delFolder(PathUtil.getClasspath()+"code"); //生成代码前,先清空之前生成的代码
 			
+//			
+//			Freemarker.printFile("controllerTemplate.ftl", map, 
+//					"com/aiw/"+module+"/controller/"+component+"Controller.java",
+//					src,
+//					"");
+//			Freemarker.printFile("entityTemplate.ftl", map, 
+//					"com/aiw/"+module+"/entity/"+component+".java",
+//					src,
+//					"");
+//			Freemarker.printFile("mapperTemplate.ftl", map, 
+//					"com/aiw/"+module+"/mapper/"+component+"Mapper.java",
+//					src,
+//					"");
+//			Freemarker.printFile("xmlTemplate.ftl", map, 
+//					"com/aiw/"+module+"/mapper/"+component+"Mapper.xml",
+//					src,
+//					"");
+//			
+//			
+//			Freemarker.printFile("jsp_listTemplate.ftl", map, 
+//					component.toLowerCase()+"/list.jsp",
+//					jsp,
+//					"");
+//			
+//			Freemarker.printFile("jsp_itemTemplate.ftl", map, 
+//					component.toLowerCase()+"/item.jsp",
+//					jsp,
+//					"");
+//			Freemarker.printFile("mysql_Template.ftl", map, 
+//					component.toLowerCase()+".sql",
+//					db,
+//					"");
 			
-			Freemarker.printFile("controllerTemplate.ftl", map, 
-					"com/aiw/"+module+"/controller/"+component+"Controller.java",
-					src,
-					"");
-			Freemarker.printFile("entityTemplate.ftl", map, 
-					"com/aiw/"+module+"/entity/"+component+".java",
-					src,
-					"");
-			Freemarker.printFile("mapperTemplate.ftl", map, 
-					"com/aiw/"+module+"/mapper/"+component+"Mapper.java",
-					src,
-					"");
-			Freemarker.printFile("xmlTemplate.ftl", map, 
-					"com/aiw/"+module+"/mapper/"+component+"Mapper.xml",
-					src,
-					"");
 			
+			Freemarker.printFile("vue_js.ftl", map, 
+                    component.toLowerCase()+".js",
+                    vue,
+                    "");
 			
-			Freemarker.printFile("jsp_listTemplate.ftl", map, 
-					component.toLowerCase()+"/list.jsp",
-					jsp,
-					"");
-			
-			Freemarker.printFile("jsp_itemTemplate.ftl", map, 
-					component.toLowerCase()+"/item.jsp",
-					jsp,
-					"");
-			Freemarker.printFile("mysql_Template.ftl", map, 
-					component.toLowerCase()+".sql",
-					db,
-					"");
+			Freemarker.printFile("vue_page.ftl", map, 
+			        module + "/"+ component.toLowerCase()+".vue",
+                    vue,
+                    "");
 			
 //			/*生成service*/
 //			Freemarker.printFile("serviceTemplate.ftl", root, "service/"+packageName+"/"+objectName.toLowerCase()+"/impl/"+objectName+"Service.java", filePath, ftlPath);
@@ -129,11 +142,11 @@ public class CreateCode {
 			//this.print("oracle_SQL_Template.ftl", root);  控制台打印
 			
 			//执行sql
-			File file = new File(PathUtil.getClasspath() + db + component.toLowerCase()+".sql");
-		    ScriptRunner runner = new ScriptRunner(connection);  
-		    runner.setErrorLogWriter(null);  
-		    runner.setLogWriter(null);  
-		    runner.runScript(new FileReader(file));  
+//			File file = new File(PathUtil.getClasspath() + db + component.toLowerCase()+".sql");
+//		    ScriptRunner runner = new ScriptRunner(connection);  
+//		    runner.setErrorLogWriter(null);  
+//		    runner.setLogWriter(null);  
+//		    runner.runScript(new FileReader(file));  
 			
 			/*生成的全部代码压缩成zip文件*/
 			if(FileZip.zip(PathUtil.getClasspath()+"code", PathUtil.getClasspath()+"code.zip")){
