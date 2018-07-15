@@ -1,7 +1,7 @@
 package com.aiw.bdzb.mapper;
 
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.bdzb.entity.Sence;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：bdzb.scene

@@ -14,18 +14,15 @@
 						http://www.springframework.org/schema/tx/spring-tx.xsd
 	">
 	
-		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-			
+		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">			
 			 <!--认证管理器-->
 			 <property name="realm" ref="ShiroRealm" />
-			
 			 <!-- 缓存管理器 -->
 	         <property name="cacheManager" ref="shiroCacheManager" />
-			
 		</bean>
 		
 		<!-- 項目自定义的Realm -->
-	    <bean id="ShiroRealm" class="com.aiw.shiro.ShiroRealm" >
+	    <bean id="ShiroRealm" class="com.aiw.base.shiro.ShiroRealm" >
 	    </bean>
 	    
 	    <!--缓存管理器实现类，这里用的是系统自带的-->
@@ -59,7 +56,7 @@
 			<property name="filters">
             <map>
                 <entry key="allcheck">
-                    <bean class="com.aiw.shiro.AllcheckFilter" />
+                    <bean class="com.aiw.base.shiro.AllcheckFilter" />
                 </entry>
             </map>
         	</property>

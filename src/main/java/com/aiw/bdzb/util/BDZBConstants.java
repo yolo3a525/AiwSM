@@ -3,7 +3,7 @@ package com.aiw.bdzb.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.aiw.util.DDData;
+import com.aiw.base.util.DDData;
 
 public class BDZBConstants {
 	

@@ -21,10 +21,10 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `${module}_${componentLower}`;
 CREATE TABLE `${module}_${componentLower}` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-  <#list entity?keys as key>
-  	<#if entity[key] == "Integer">
+  <#list dbEntity?keys as key>
+  	<#if dbEntity[key] == "Integer">
     `${key}` int(11),
-    <#elseif entity[key] == "java.sql.Timestamp"> 
+    <#elseif dbEntity[key] == "java.sql.Timestamp"> 
     `${key}` timestamp NULL DEFAULT NULL,
     <#else>
     `${key}` varchar(20) DEFAULT NULL,

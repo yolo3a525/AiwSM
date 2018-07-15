@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.bdzb.entity.Jewelry;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：bdzb.jewelry

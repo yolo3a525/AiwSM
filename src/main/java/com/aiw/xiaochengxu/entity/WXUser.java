@@ -1,6 +1,6 @@
 package com.aiw.xiaochengxu.entity;
 
-import com.aiw.entity.BaseEntity;
+import com.aiw.base.entity.BaseEntity;
 
 public class WXUser extends BaseEntity {
 	private String openid;

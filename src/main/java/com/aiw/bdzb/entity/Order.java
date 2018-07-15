@@ -3,7 +3,7 @@ package com.aiw.bdzb.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.aiw.entity.BaseEntity;
+import com.aiw.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Order extends BaseEntity {

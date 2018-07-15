@@ -1,7 +1,7 @@
 package com.aiw.dominos.mapper;
 
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.dominos.entity.InfoDetail;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：dominos.infodetail

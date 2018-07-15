@@ -1,6 +1,6 @@
 package com.aiw.bdzb.entity;
 
-import com.aiw.entity.BaseEntity;
+import com.aiw.base.entity.BaseEntity;
 
 public class RecommendRecord extends BaseEntity {
 

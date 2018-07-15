@@ -41,7 +41,7 @@ targetPackage="${dao.package}" targetProject="${target.project}">
 </javaClientGenerator>  
    
 <!--对应数据库表名 -->  
-<table tableName="b_abc">  
+<table tableName="base_api">  
    
 </table>  
 </context>  

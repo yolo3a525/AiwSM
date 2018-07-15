@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aiw.base.controller.BaseController;
+import com.aiw.base.entity.BaseJsonBean;
+import com.aiw.base.entity.Page;
+import com.aiw.base.util.DDData;
+import com.aiw.base.util.FileUpload;
+import com.aiw.base.util.FileUtil;
+import com.aiw.base.util.PathUtil;
 import com.aiw.bdzb.entity.Sence;
 import com.aiw.bdzb.mapper.SenceMapper;
 import com.aiw.bdzb.util.BDZBConstants;
-import com.aiw.controller.base.BaseController;
-import com.aiw.entity.BaseJsonBean;
-import com.aiw.entity.Page;
-import com.aiw.util.DDData;
-import com.aiw.util.FileUpload;
-import com.aiw.util.FileUtil;
-import com.aiw.util.PathUtil;
 
 
 /** 

@@ -2,16 +2,14 @@ package com.aiw.zycp.controller;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aiw.api.base.controller.BaseController;
-import com.aiw.entity.Page;
-import com.aiw.entity.SysResult;
+import com.aiw.base.controller.api.BaseController;
+import com.aiw.base.entity.Page;
+import com.aiw.base.entity.SysResult;
 import com.aiw.zycp.entity.Answer;
 import com.aiw.zycp.mapper.AnswerMapper;
 

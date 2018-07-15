@@ -1,6 +1,6 @@
 package com.aiw.ruiyun.entity;
 
-import com.aiw.entity.BaseEntity;
+import com.aiw.base.entity.BaseEntity;
 
 public class Employee extends BaseEntity {
 

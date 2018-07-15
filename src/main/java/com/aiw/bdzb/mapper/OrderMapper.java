@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.bdzb.entity.Order;
 import com.aiw.bdzb.entity.OrderDetail;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：bdzb.order

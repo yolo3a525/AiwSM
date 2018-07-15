@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.aiw.util.ObjectExcelRead;
+import com.aiw.base.util.ObjectExcelRead;
 
 public class BatchUpload {
 

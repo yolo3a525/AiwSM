@@ -1,6 +1,6 @@
 package com.aiw.zycp.entity;
 
-import com.aiw.entity.BaseEntity;
+import com.aiw.base.entity.BaseEntity;
 
 public class Answer extends BaseEntity {
 	private String name;

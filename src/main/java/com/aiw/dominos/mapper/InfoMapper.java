@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.aiw.base.entity.Page;
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.dominos.entity.Info;
-import com.aiw.entity.Page;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：dominos.info

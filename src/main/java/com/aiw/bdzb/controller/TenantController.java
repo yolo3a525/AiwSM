@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aiw.base.controller.BaseController;
+import com.aiw.base.entity.BaseJsonBean;
+import com.aiw.base.entity.Chart;
+import com.aiw.base.entity.Page;
+import com.aiw.base.util.DDData;
+import com.aiw.base.util.FileDownload;
+import com.aiw.base.util.ObjectExcelRead;
+import com.aiw.base.util.PathUtil;
 import com.aiw.bdzb.entity.RecommendRecord;
 import com.aiw.bdzb.entity.Tenant;
 import com.aiw.bdzb.mapper.RecommendRecordMapper;
 import com.aiw.bdzb.mapper.TenantMapper;
 import com.aiw.bdzb.util.BDZBConstants;
-import com.aiw.controller.base.BaseController;
-import com.aiw.entity.BaseJsonBean;
-import com.aiw.entity.Chart;
-import com.aiw.entity.Page;
-import com.aiw.util.DDData;
-import com.aiw.util.FileDownload;
-import com.aiw.util.ObjectExcelRead;
-import com.aiw.util.PathUtil;
 
 
 /** 

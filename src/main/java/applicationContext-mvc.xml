@@ -101,7 +101,7 @@
           <mvc:mapping path="/bdzb/app2/**"/>  
           <mvc:exclude-mapping path="/bdzb/app2/login"/>
           <mvc:exclude-mapping path="/bdzb/app2/register"/>
-          <bean class="com.aiw.extend.AppLoginHandlerIntercepter"></bean>  
+          <bean class="com.aiw.base.extend.AppLoginHandlerIntercepter"></bean>  
       </mvc:interceptor>  
      </mvc:interceptors>  
     

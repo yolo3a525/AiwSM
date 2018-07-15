@@ -1,15 +1,8 @@
 package com.aiw.zycp.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletException;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -19,10 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aiw.api.base.controller.BaseController;
-import com.aiw.entity.KeyValue;
-import com.aiw.entity.Page;
-import com.aiw.entity.SysResult;
+import com.aiw.base.controller.api.BaseController;
+import com.aiw.base.entity.Page;
+import com.aiw.base.entity.SysResult;
 import com.aiw.zycp.entity.Answer;
 import com.aiw.zycp.mapper.AnswerMapper;
 import com.aiw.zycp.util.HttpsClient;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.aiw.base.mapper.BaseMapper;
 import com.aiw.bdzb.entity.RechargeCard;
-import com.aiw.mapper.BaseMapper;
 
 /** 
  * 说明：bdzb.rechargecard

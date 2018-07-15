@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aiw.base.controller.BaseController;
+import com.aiw.base.entity.BaseJsonBean;
+import com.aiw.base.entity.Page;
 import com.aiw.bdzb.entity.Jifen;
 import com.aiw.bdzb.entity.Tenant;
 import com.aiw.bdzb.mapper.JifenMapper;
 import com.aiw.bdzb.mapper.TenantMapper;
-import com.aiw.controller.base.BaseController;
-import com.aiw.entity.BaseJsonBean;
-import com.aiw.entity.Page;
 
 
 /** 

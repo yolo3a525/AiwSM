@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aiw.api.base.controller.BaseController;
-import com.aiw.entity.KeyValue;
-import com.aiw.entity.Page;
-import com.aiw.entity.SysResult;
+import com.aiw.base.controller.api.BaseController;
+import com.aiw.base.entity.KeyValue;
+import com.aiw.base.entity.Page;
+import com.aiw.base.entity.SysResult;
 import com.aiw.xiaochengxu.entity.WXUser;
 import com.aiw.xiaochengxu.mapper.WXUserMapper;
 import com.aiw.zycp.util.HttpsClient;
